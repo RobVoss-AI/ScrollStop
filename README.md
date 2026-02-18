@@ -12,6 +12,9 @@ Built as a Progressive Web App (PWA). Installable on iOS, Android, and desktop. 
 
 ## Tools
 
+### Text Formatter
+Transform plain text into eye-catching Unicode styles — bold, italic, monospace, script, fraktur, double-struck, circled, squared, and more. LinkedIn doesn't support native text formatting, but these Unicode characters render as styled text on any platform. Type or paste your text, select a style, and copy the formatted output. Use sparingly for emphasis to maintain readability and accessibility.
+
 ### Post Analyzer
 Real-time character counter with LinkedIn's 3,000-character limit, Flesch-Kincaid readability scoring, average sentence and word length metrics, and smart optimization tips that adapt as you write.
 
@@ -116,6 +119,7 @@ Please keep tools as pure HTML/CSS/JS with no external dependencies.
 
 Individual tools are also available as standalone HTML files for embedding or separate deployment:
 
+- `VAIC_Text_Formatter.html`
 - `VAIC_Post_Analyzer.html`
 - `VAIC_Hook_Generator.html`
 - `VAIC_Hashtag_Analyzer.html`
