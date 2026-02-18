@@ -11,1034 +11,784 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="application-name" content="VAIC ScrollStop">
 <meta name="msapplication-TileColor" content="#0a1628">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>VAIC ScrollStop — Content Optimizer by Voss AI Consulting</title>
 <style>
-/* ============================================================
-   VAIC LINKEDIN TOOLKIT — GLOBAL STYLES
-   Blue & Gold branding matching PromptFlow
-   ============================================================ */
-:root {
-    --bg-deepest: #060e1a;
-    --bg-dark: #0a1628;
-    --bg-panel: #0f1f36;
-    --bg-card: #142742;
-    --bg-input: #0d1a2e;
-    --bg-hover: #1a3050;
-    --blue-primary: #1e3a5f;
-    --blue-mid: #2d5f8a;
-    --blue-light: #4a90d9;
-    --blue-bright: #5ba3ec;
-    --gold-primary: #c9a227;
-    --gold-light: #e8c84a;
-    --gold-dark: #9a7b1c;
-    --gold-glow: rgba(201, 162, 39, 0.3);
-    --text-primary: #e8ecf1;
-    --text-secondary: #8899aa;
-    --text-muted: #556677;
-    --danger: #e74c3c;
-    --success: #2ecc71;
-    --warning: #f39c12;
-    --border: rgba(45, 95, 138, 0.3);
-    --radius: 8px;
-    --radius-lg: 12px;
-    --shadow: 0 4px 24px rgba(0,0,0,0.4);
-    --transition: 0.2s ease;
-    --font-main: 'Segoe UI', system-ui, -apple-system, sans-serif;
-    --font-mono: 'SF Mono', 'Fira Code', 'Consolas', monospace;
-}
-* { margin: 0; padding: 0; box-sizing: border-box; }
-html, body { height: 100%; overflow: hidden; }
-body {
-    font-family: var(--font-main);
-    background: var(--bg-deepest);
-    color: var(--text-primary);
-}
-::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-track { background: var(--bg-dark); }
-::-webkit-scrollbar-thumb { background: var(--blue-primary); border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: var(--blue-mid); }
+:root{--bg-deepest:#060e1a;--bg-dark:#0a1628;--bg-panel:#0f1f36;--bg-card:#142742;--bg-input:#0d1a2e;--bg-hover:#1a3050;--blue-primary:#1e3a5f;--blue-mid:#2d5f8a;--blue-light:#4a90d9;--blue-bright:#5ba3ec;--gold-primary:#c9a227;--gold-light:#e8c84a;--gold-dark:#9a7b1c;--gold-glow:rgba(201,162,39,0.3);--text-primary:#e8ecf1;--text-secondary:#8899aa;--text-muted:#556677;--danger:#e74c3c;--success:#2ecc71;--warning:#f39c12;--border:rgba(45,95,138,0.3);--radius:8px;--radius-lg:12px;--shadow:0 4px 24px rgba(0,0,0,0.4);--transition:0.2s ease;--font-main:'Segoe UI',system-ui,-apple-system,sans-serif;--font-mono:'SF Mono','Fira Code','Consolas',monospace}
+*{margin:0;padding:0;box-sizing:border-box}html,body{height:100%;overflow:hidden}
+body{font-family:var(--font-main);background:var(--bg-deepest);color:var(--text-primary)}
+::-webkit-scrollbar{width:8px}::-webkit-scrollbar-track{background:var(--bg-dark)}::-webkit-scrollbar-thumb{background:var(--blue-primary);border-radius:4px}
 
-/* ============================================================
-   SPLASH SCREEN
-   ============================================================ */
-#splash {
-    position: fixed; inset: 0; z-index: 9999;
-    background: radial-gradient(ellipse at center, #0f1f36 0%, #060e1a 70%);
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    transition: opacity 0.6s ease, visibility 0.6s ease;
-}
-#splash.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
-#splash .logo-mark {
-    width: 80px; height: 80px; border-radius: 20px;
-    background: linear-gradient(135deg, var(--gold-primary), var(--gold-light));
-    display: flex; align-items: center; justify-content: center;
-    font-size: 36px; font-weight: 800; color: var(--bg-deepest);
-    margin-bottom: 20px; box-shadow: 0 0 60px var(--gold-glow);
-    animation: pulse-glow 2s ease-in-out infinite;
-}
-@keyframes pulse-glow {
-    0%, 100% { box-shadow: 0 0 40px var(--gold-glow); }
-    50% { box-shadow: 0 0 80px var(--gold-glow), 0 0 120px rgba(201,162,39,0.1); }
-}
-#splash h1 { font-size: 28px; font-weight: 700; color: var(--text-primary); letter-spacing: 1px; }
-#splash h1 span { color: var(--gold-primary); }
-#splash p { color: var(--text-secondary); margin-top: 8px; font-size: 14px; letter-spacing: 2px; text-transform: uppercase; }
-#splash .splash-loader { margin-top: 40px; width: 200px; height: 3px; background: var(--bg-card); border-radius: 3px; overflow: hidden; }
-#splash .splash-loader-bar { height: 100%; width: 0%; background: linear-gradient(90deg, var(--gold-primary), var(--gold-light)); border-radius: 3px; transition: width 0.3s ease; }
+/* SPLASH */
+#splash{position:fixed;inset:0;z-index:9999;background:radial-gradient(ellipse at center,#0f1f36 0%,#060e1a 70%);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .6s ease,visibility .6s ease}
+#splash.hidden{opacity:0;visibility:hidden;pointer-events:none}
+#splash .logo-mark{width:80px;height:80px;border-radius:20px;background:linear-gradient(135deg,var(--gold-primary),var(--gold-light));display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:800;color:var(--bg-deepest);margin-bottom:20px;box-shadow:0 0 60px var(--gold-glow);animation:pulse-glow 2s ease-in-out infinite}
+@keyframes pulse-glow{0%,100%{box-shadow:0 0 40px var(--gold-glow)}50%{box-shadow:0 0 80px var(--gold-glow),0 0 120px rgba(201,162,39,0.1)}}
+#splash h1{font-size:28px;font-weight:700;letter-spacing:1px}#splash h1 span{color:var(--gold-primary)}
+#splash .splash-sub{color:var(--text-secondary);margin-top:6px;font-size:14px;letter-spacing:2px;text-transform:uppercase}
+#splash .splash-tools{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:28px;max-width:420px}
+#splash .splash-tool{padding:6px 14px;border-radius:100px;font-size:11px;font-weight:600;background:rgba(45,95,138,.15);color:var(--text-secondary);border:1px solid var(--border);letter-spacing:.3px}
+#splash .splash-loader{margin-top:28px;width:200px;height:3px;background:var(--bg-card);border-radius:3px;overflow:hidden}
+#splash .splash-loader-bar{height:100%;width:0%;background:linear-gradient(90deg,var(--gold-primary),var(--gold-light));border-radius:3px;transition:width .3s ease}
 
-/* ============================================================
-   APP SHELL
-   ============================================================ */
-#app { display: flex; height: 100vh; opacity: 0; transition: opacity 0.4s ease; }
-#app.visible { opacity: 1; }
+/* APP SHELL */
+#app{display:flex;height:100vh;opacity:0;transition:opacity .4s ease}#app.visible{opacity:1}
+#sidebar{width:220px;min-width:220px;background:var(--bg-dark);border-right:1px solid var(--border);display:flex;flex-direction:column;z-index:100}
+.sidebar-brand{padding:20px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px}
+.sidebar-brand .logo-sm{width:36px;height:36px;border-radius:8px;background:linear-gradient(135deg,var(--gold-primary),var(--gold-light));display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:var(--bg-deepest);flex-shrink:0}
+.sidebar-brand .brand-text{font-size:15px;font-weight:700;line-height:1.2}.sidebar-brand .brand-text span{color:var(--gold-primary)}
+.sidebar-brand .brand-sub{font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1.5px}
+.sidebar-nav{flex:1;padding:12px 8px;display:flex;flex-direction:column;gap:4px;overflow-y:auto}
+.nav-section{font-size:10px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:1.5px;padding:12px 12px 6px}
+.nav-btn{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--radius);background:transparent;border:none;color:var(--text-secondary);font-size:13px;cursor:pointer;transition:all var(--transition);text-align:left;width:100%;font-family:var(--font-main)}
+.nav-btn:hover{background:var(--bg-hover);color:var(--text-primary)}
+.nav-btn.active{background:var(--blue-primary);color:var(--gold-light);font-weight:600}
+.nav-btn svg{width:18px;height:18px;flex-shrink:0}
+.nav-btn .badge{margin-left:auto;font-size:9px;font-weight:700;background:var(--gold-primary);color:var(--bg-deepest);padding:2px 6px;border-radius:100px}
+.sidebar-footer{padding:12px 16px;border-top:1px solid var(--border);font-size:11px;color:var(--text-muted);text-align:center;line-height:1.6}
+.sidebar-footer a{color:var(--gold-primary);text-decoration:none}
+.help-btn{display:block;width:100%;margin-top:8px;padding:7px;border:1px solid var(--border);border-radius:var(--radius);background:rgba(45,95,138,.08);color:var(--text-secondary);font-size:12px;font-weight:600;cursor:pointer;font-family:var(--font-main);transition:all var(--transition)}
+.help-btn:hover{background:rgba(45,95,138,.15);color:var(--text-primary)}
 
-/* Sidebar */
-#sidebar {
-    width: 220px; min-width: 220px;
-    background: var(--bg-dark);
-    border-right: 1px solid var(--border);
-    display: flex; flex-direction: column;
-    z-index: 100;
-}
-.sidebar-brand {
-    padding: 20px 16px; border-bottom: 1px solid var(--border);
-    display: flex; align-items: center; gap: 12px;
-}
-.sidebar-brand .logo-sm {
-    width: 36px; height: 36px; border-radius: 8px;
-    background: linear-gradient(135deg, var(--gold-primary), var(--gold-light));
-    display: flex; align-items: center; justify-content: center;
-    font-size: 14px; font-weight: 800; color: var(--bg-deepest);
-    flex-shrink: 0;
-}
-.sidebar-brand .brand-text { font-size: 15px; font-weight: 700; line-height: 1.2; }
-.sidebar-brand .brand-text span { color: var(--gold-primary); }
-.sidebar-brand .brand-sub { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.5px; }
+/* MAIN */
+#main{flex:1;display:flex;flex-direction:column;overflow:hidden;position:relative}
+.page{display:none;flex:1;overflow:hidden;flex-direction:column}.page.active{display:flex}
+.page-header{padding:20px 28px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:16px;flex-shrink:0;background:var(--bg-dark)}
+.page-header h2{font-size:20px;font-weight:700;display:flex;align-items:center;gap:10px}
+.page-header h2 svg{width:22px;height:22px;color:var(--gold-primary)}
+.page-header .page-desc{font-size:13px;color:var(--text-muted)}
+.page-body{flex:1;overflow-y:auto;padding:28px}
 
-.sidebar-nav { flex: 1; padding: 12px 8px; display: flex; flex-direction: column; gap: 4px; }
-.nav-section { font-size: 10px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.5px; padding: 12px 12px 6px; }
-.nav-btn {
-    display: flex; align-items: center; gap: 10px;
-    padding: 10px 12px; border-radius: var(--radius);
-    background: transparent; border: none; color: var(--text-secondary);
-    font-size: 14px; cursor: pointer; transition: all var(--transition);
-    text-align: left; width: 100%; font-family: var(--font-main);
-}
-.nav-btn:hover { background: var(--bg-hover); color: var(--text-primary); }
-.nav-btn.active { background: var(--blue-primary); color: var(--gold-light); font-weight: 600; }
-.nav-btn svg { width: 18px; height: 18px; flex-shrink: 0; }
-.nav-btn .badge-new {
-    margin-left: auto; font-size: 9px; font-weight: 700; background: var(--gold-primary);
-    color: var(--bg-deepest); padding: 2px 6px; border-radius: 100px; letter-spacing: 0.5px;
-}
+/* SHARED */
+.btn{padding:8px 16px;border-radius:var(--radius);border:none;font-size:13px;font-weight:600;cursor:pointer;font-family:var(--font-main);transition:all var(--transition);display:inline-flex;align-items:center;gap:6px}
+.btn-gold{background:linear-gradient(135deg,var(--gold-primary),var(--gold-dark));color:var(--bg-deepest)}.btn-gold:hover{background:linear-gradient(135deg,var(--gold-light),var(--gold-primary))}
+.btn-blue{background:var(--blue-mid);color:#fff}.btn-blue:hover{background:var(--blue-light)}
+.btn-ghost{background:transparent;color:var(--text-secondary);border:1px solid var(--border)}.btn-ghost:hover{background:var(--bg-hover);color:var(--text-primary)}
+.btn-sm{padding:5px 10px;font-size:12px}.btn-lg{padding:12px 24px;font-size:15px}
+.btn-gold:disabled{opacity:.5;cursor:not-allowed}
+.card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px}
+.card-label{font-size:10px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:14px}
+textarea,input[type="text"],input[type="url"],select{background:var(--bg-input);border:1px solid var(--border);color:var(--text-primary);border-radius:var(--radius);padding:10px 14px;font-size:14px;font-family:var(--font-main);transition:border-color var(--transition);outline:none;width:100%;line-height:1.6}
+textarea:focus,input:focus{border-color:var(--gold-primary)}textarea::placeholder,input::placeholder{color:var(--text-muted)}
+textarea{resize:vertical;min-height:200px}
 
-.sidebar-footer {
-    padding: 16px; border-top: 1px solid var(--border);
-    font-size: 11px; color: var(--text-muted); text-align: center; line-height: 1.6;
-}
-.sidebar-footer a { color: var(--gold-primary); text-decoration: none; }
+.layout-main{display:grid;grid-template-columns:1fr 340px;gap:20px;align-items:start}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.flex-col{display:flex;flex-direction:column;gap:16px}
+@media(max-width:900px){.layout-main,.grid-2{grid-template-columns:1fr !important}}
 
-/* Main content */
-#main { flex: 1; display: flex; flex-direction: column; overflow: hidden; position: relative; }
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stat-box{background:rgba(45,95,138,.15);border-radius:var(--radius);padding:12px;text-align:center}
+.stat-box .num{font-family:var(--font-mono);font-size:24px;font-weight:600;line-height:1;margin-bottom:2px}
+.stat-box .lbl{font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;font-weight:600}
+.gauge-track{width:100%;height:8px;background:rgba(45,95,138,.2);border-radius:4px;overflow:hidden}
+.gauge-fill{height:100%;border-radius:4px;transition:width .3s,background .3s}
+.gauge-labels{display:flex;justify-content:space-between;margin-top:4px;font-size:10px;color:var(--text-muted);font-family:var(--font-mono)}
+.ring-wrap{width:72px;height:72px;position:relative;flex-shrink:0}
+.ring-wrap svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring-wrap circle{fill:none;stroke-width:4;stroke-linecap:round}
+.ring-wrap .bg{stroke:rgba(45,95,138,.2)}.ring-wrap .fg{transition:stroke-dashoffset .6s ease,stroke .3s}
+.ring-label{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ring-label .rn{font-family:var(--font-mono);font-size:20px;font-weight:600;line-height:1}
+.ring-label .rs{font-size:8px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;font-weight:700}
+.tip{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;background:rgba(45,95,138,.1);border-radius:var(--radius);font-size:13px;color:var(--text-secondary);line-height:1.5;transition:background .2s}
+.tip:hover{background:rgba(45,95,138,.15)}
+.tip-icon{flex-shrink:0;width:22px;height:22px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px}
+.hook-dot{width:9px;height:9px;border-radius:50%;display:inline-block;margin-right:6px}
+.tag{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:100px;font-size:12px;font-weight:600;background:rgba(201,162,39,.12);color:var(--gold-light)}
 
-/* Pages */
-.page { display: none; flex: 1; overflow: hidden; flex-direction: column; }
-.page.active { display: flex; }
-.page-header {
-    padding: 20px 28px; border-bottom: 1px solid var(--border);
-    display: flex; align-items: center; justify-content: space-between; gap: 16px;
-    flex-shrink: 0; background: var(--bg-dark);
-}
-.page-header h2 { font-size: 20px; font-weight: 700; display: flex; align-items: center; gap: 10px; }
-.page-header h2 svg { width: 22px; height: 22px; color: var(--gold-primary); }
-.page-header .page-desc { font-size: 13px; color: var(--text-muted); }
-.page-body { flex: 1; overflow-y: auto; padding: 28px; }
+/* TEXT FORMATTER SPECIFIC */
+.fmt-toolbar{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.fmt-btn{padding:6px 12px;border-radius:var(--radius);border:1px solid var(--border);background:var(--bg-panel);color:var(--text-secondary);font-size:13px;cursor:pointer;font-family:var(--font-main);transition:all var(--transition);font-weight:600}
+.fmt-btn:hover{border-color:var(--gold-primary);color:var(--text-primary);background:var(--bg-hover)}
+.fmt-btn.active{border-color:var(--gold-primary);background:rgba(201,162,39,.1);color:var(--gold-light)}
+.fmt-preview{background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius);padding:14px;min-height:120px;font-size:15px;line-height:1.65;white-space:pre-wrap;word-wrap:break-word;color:var(--text-primary);cursor:text;user-select:all}
+.fmt-preview:empty::before{content:'Your formatted text will appear here...';color:var(--text-muted)}
+.fmt-copy-bar{display:flex;gap:10px;align-items:center;margin-top:12px}
+.fmt-sample{font-size:13px;color:var(--text-muted);margin-top:4px}
 
-/* ============================================================
-   SHARED COMPONENTS
-   ============================================================ */
-.btn {
-    padding: 8px 16px; border-radius: var(--radius); border: none;
-    font-size: 13px; font-weight: 600; cursor: pointer;
-    font-family: var(--font-main); transition: all var(--transition);
-    display: inline-flex; align-items: center; gap: 6px;
-}
-.btn-gold { background: linear-gradient(135deg, var(--gold-primary), var(--gold-dark)); color: var(--bg-deepest); }
-.btn-gold:hover { background: linear-gradient(135deg, var(--gold-light), var(--gold-primary)); }
-.btn-blue { background: var(--blue-mid); color: white; }
-.btn-blue:hover { background: var(--blue-light); }
-.btn-ghost { background: transparent; color: var(--text-secondary); border: 1px solid var(--border); }
-.btn-ghost:hover { background: var(--bg-hover); color: var(--text-primary); }
-.btn-sm { padding: 5px 10px; font-size: 12px; }
+/* HOOK GENERATOR */
+.hook-result{padding:14px;background:var(--bg-panel);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:10px;cursor:pointer;transition:all var(--transition);display:flex;align-items:flex-start;gap:10px}
+.hook-result:hover{border-color:var(--gold-primary);background:var(--bg-hover)}
+.hook-result .hook-num{font-family:var(--font-mono);font-size:11px;font-weight:700;color:var(--text-muted);background:rgba(45,95,138,.2);width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.hook-result .hook-text{font-size:14px;color:var(--text-primary);line-height:1.55}
+.hook-result .hook-copy{margin-left:auto;font-size:11px;color:var(--gold-primary);font-weight:600;white-space:nowrap;opacity:0;transition:opacity var(--transition)}
+.hook-result:hover .hook-copy{opacity:1}
 
-.card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px; }
-.card-label { font-size: 10px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 14px; }
+/* HASHTAG */
+.hashtag-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px}
+.hashtag-card{background:var(--bg-panel);border:1px solid var(--border);border-radius:var(--radius);padding:12px;cursor:pointer;transition:all var(--transition)}
+.hashtag-card:hover{border-color:var(--gold-primary)}
+.hashtag-card.selected{border-color:var(--gold-primary);background:rgba(201,162,39,.06)}
+.ht-name{font-size:14px;font-weight:600;color:var(--blue-bright);margin-bottom:4px}
+.ht-meta{font-size:11px;color:var(--text-muted)}
+.selected-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;min-height:28px}
 
-textarea, input[type="text"], input[type="url"] {
-    background: var(--bg-input); border: 1px solid var(--border);
-    color: var(--text-primary); border-radius: var(--radius);
-    padding: 10px 14px; font-size: 14px; font-family: var(--font-main);
-    transition: border-color var(--transition); outline: none; width: 100%;
-    line-height: 1.6;
-}
-textarea:focus, input:focus { border-color: var(--gold-primary); }
-textarea { resize: vertical; min-height: 200px; }
+/* PREVIEW */
+.preview-frame{background:#fff;border-radius:12px;overflow:hidden;color:#000;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+.preview-frame.mobile{width:375px;max-width:100%;margin:0 auto}.preview-frame.desktop{width:100%;max-width:555px;margin:0 auto}
+.preview-header{padding:14px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #e8e8e8}
+.preview-avatar{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--gold-primary),var(--blue-mid));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:18px;flex-shrink:0}
+.preview-meta .preview-name{font-size:14px;font-weight:600;color:#000}
+.preview-meta .preview-headline{font-size:12px;color:#666}.preview-meta .preview-time{font-size:11px;color:#999}
+.preview-body{padding:0 16px 14px}.preview-text{font-size:14px;line-height:1.5;color:#000;white-space:pre-wrap;word-wrap:break-word;padding-top:12px}
+.preview-text.truncated::after{content:'...see more';color:#0a66c2;font-weight:600;cursor:pointer}
+.preview-actions{padding:8px 16px;border-top:1px solid #e8e8e8;display:flex;justify-content:space-around}
+.preview-action{font-size:12px;color:#666;font-weight:600;padding:8px;display:flex;align-items:center;gap:4px}
 
-/* Layout helpers */
-.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
-.flex-col { display: flex; flex-direction: column; gap: 16px; }
-.flex-row { display: flex; gap: 16px; align-items: start; }
-@media(max-width:900px) { .grid-2, .grid-3, .layout-main { grid-template-columns: 1fr !important; } }
+/* API section */
+.api-section{padding:14px;background:rgba(45,95,138,.1);border-radius:var(--radius);margin-bottom:0}
+.api-section label{font-size:12px;font-weight:600;color:var(--text-secondary);display:block;margin-bottom:6px}
+.api-section input{font-family:var(--font-mono);font-size:12px}.api-note{font-size:11px;color:var(--text-muted);margin-top:6px}
 
-.layout-main { display: grid; grid-template-columns: 1fr 340px; gap: 20px; align-items: start; }
+/* HELP OVERLAY */
+#help-overlay{position:fixed;inset:0;z-index:9998;background:rgba(6,14,26,.92);display:none;align-items:center;justify-content:center;padding:20px;overflow-y:auto}
+#help-overlay.visible{display:flex}
+.help-panel{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;max-width:600px;width:100%;max-height:90vh;overflow-y:auto;padding:32px}
+.help-panel h2{font-size:22px;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:10px}
+.help-panel h2 span{color:var(--gold-primary)}
+.help-panel .help-sub{font-size:13px;color:var(--text-muted);margin-bottom:24px}
+.help-section{margin-bottom:20px}
+.help-section h3{font-size:14px;font-weight:700;color:var(--gold-light);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.help-section p{font-size:13px;color:var(--text-secondary);line-height:1.6;margin-bottom:6px}
+.help-close{position:absolute;top:20px;right:20px;background:none;border:none;color:var(--text-muted);font-size:24px;cursor:pointer;transition:color var(--transition)}
+.help-close:hover{color:var(--text-primary)}
+.help-footer{margin-top:24px;padding-top:16px;border-top:1px solid var(--border);text-align:center;font-size:12px;color:var(--text-muted)}
+.help-footer a{color:var(--gold-primary);text-decoration:none}
 
-/* Stats */
-.stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.stat-box { background: rgba(45,95,138,.15); border-radius: var(--radius); padding: 12px; text-align: center; }
-.stat-box .num { font-family: var(--font-mono); font-size: 24px; font-weight: 600; line-height: 1; margin-bottom: 2px; }
-.stat-box .lbl { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
-
-/* Gauge */
-.gauge-track { width: 100%; height: 8px; background: rgba(45,95,138,.2); border-radius: 4px; overflow: hidden; }
-.gauge-fill { height: 100%; border-radius: 4px; transition: width .3s, background .3s; }
-.gauge-labels { display: flex; justify-content: space-between; margin-top: 4px; font-size: 10px; color: var(--text-muted); font-family: var(--font-mono); }
-
-/* Ring */
-.ring-wrap { width: 72px; height: 72px; position: relative; flex-shrink: 0; }
-.ring-wrap svg { width: 100%; height: 100%; transform: rotate(-90deg); }
-.ring-wrap circle { fill: none; stroke-width: 4; stroke-linecap: round; }
-.ring-wrap .bg { stroke: rgba(45,95,138,.2); }
-.ring-wrap .fg { transition: stroke-dashoffset .6s ease, stroke .3s; }
-.ring-label { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-.ring-label .rn { font-family: var(--font-mono); font-size: 20px; font-weight: 600; line-height: 1; }
-.ring-label .rs { font-size: 8px; color: var(--text-muted); text-transform: uppercase; letter-spacing: .5px; font-weight: 700; }
-
-/* Highlight box */
-.highlight { border-radius: var(--radius); padding: 16px; text-align: center; margin-top: 12px; }
-.highlight.gold { background: rgba(201,162,39,.08); border: 1px solid rgba(201,162,39,.2); }
-.highlight.green { background: rgba(46,204,113,.08); border: 1px solid rgba(46,204,113,.2); }
-.highlight.blue { background: rgba(74,144,217,.08); border: 1px solid rgba(74,144,217,.2); }
-.highlight .hl-n { font-family: var(--font-mono); font-size: 32px; font-weight: 600; line-height: 1; }
-.highlight .hl-t { font-size: 12px; color: var(--text-secondary); margin-top: 4px; }
-.highlight.gold .hl-n { color: var(--gold-light); }
-.highlight.green .hl-n { color: var(--success); }
-.highlight.blue .hl-n { color: var(--blue-bright); }
-
-/* Tips */
-.tip { display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; background: rgba(45,95,138,.1); border-radius: var(--radius); font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
-.tip:hover { background: rgba(45,95,138,.15); }
-.tip-icon { flex-shrink: 0; width: 22px; height: 22px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 11px; }
-
-/* Hook verdict */
-.hook-dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; margin-right: 6px; }
-
-/* Tag pills */
-.tag { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 100px; font-size: 12px; font-weight: 600; background: rgba(45,95,138,.2); color: var(--text-secondary); }
-.tag.gold { background: rgba(201,162,39,.12); color: var(--gold-light); }
-.tag.green { background: rgba(46,204,113,.12); color: var(--success); }
-.tag.blue { background: rgba(74,144,217,.12); color: var(--blue-bright); }
-
-/* Preview frames */
-.preview-frame { background: #fff; border-radius: 12px; overflow: hidden; color: #000; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
-.preview-frame.mobile { width: 375px; max-width: 100%; margin: 0 auto; }
-.preview-frame.desktop { width: 100%; max-width: 600px; margin: 0 auto; }
-.preview-header { padding: 14px 16px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #e8e8e8; }
-.preview-avatar { width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, var(--gold-primary), var(--blue-mid)); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 18px; flex-shrink: 0; }
-.preview-meta .preview-name { font-size: 14px; font-weight: 600; color: #000; }
-.preview-meta .preview-headline { font-size: 12px; color: #666; }
-.preview-meta .preview-time { font-size: 11px; color: #999; }
-.preview-body { padding: 0 16px 14px; }
-.preview-text { font-size: 14px; line-height: 1.5; color: #000; white-space: pre-wrap; word-wrap: break-word; }
-.preview-text.truncated::after { content: '...see more'; color: #0a66c2; font-weight: 600; cursor: pointer; }
-.preview-actions { padding: 8px 16px; border-top: 1px solid #e8e8e8; display: flex; justify-content: space-around; }
-.preview-action { font-size: 12px; color: #666; font-weight: 600; padding: 8px; display: flex; align-items: center; gap: 4px; }
-
-/* API Key input section */
-.api-section { padding: 14px; background: rgba(45,95,138,.1); border-radius: var(--radius); margin-bottom: 16px; }
-.api-section label { font-size: 12px; font-weight: 600; color: var(--text-secondary); display: block; margin-bottom: 6px; }
-.api-section input { font-family: var(--font-mono); font-size: 13px; }
-.api-section .api-note { font-size: 11px; color: var(--text-muted); margin-top: 6px; }
-
-/* Generate button area */
-.gen-area { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
-.gen-output { margin-top: 16px; }
-.hook-result { padding: 14px; background: var(--bg-panel); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 10px; cursor: pointer; transition: all var(--transition); display: flex; align-items: flex-start; gap: 10px; }
-.hook-result:hover { border-color: var(--gold-primary); background: var(--bg-hover); }
-.hook-result .hook-num { font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: var(--text-muted); background: rgba(45,95,138,.2); width: 24px; height: 24px; border-radius: 6px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.hook-result .hook-text { font-size: 14px; color: var(--text-primary); line-height: 1.5; }
-.hook-result .hook-copy { margin-left: auto; font-size: 11px; color: var(--gold-primary); font-weight: 600; white-space: nowrap; opacity: 0; transition: opacity var(--transition); }
-.hook-result:hover .hook-copy { opacity: 1; }
-
-/* Hashtag results */
-.hashtag-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px; }
-.hashtag-card { background: var(--bg-panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px; cursor: pointer; transition: all var(--transition); }
-.hashtag-card:hover { border-color: var(--gold-primary); }
-.hashtag-card .ht-name { font-size: 14px; font-weight: 600; color: var(--blue-bright); margin-bottom: 4px; }
-.hashtag-card .ht-meta { font-size: 11px; color: var(--text-muted); }
-.hashtag-card.selected { border-color: var(--gold-primary); background: rgba(201,162,39,.06); }
-.selected-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; min-height: 28px; }
-
-/* Mobile responsive */
-@media(max-width:768px) {
-    #sidebar { display: none; }
-    .mobile-header { display: flex !important; }
-    .layout-main { grid-template-columns: 1fr !important; }
-}
-.mobile-header {
-    display: none; padding: 12px 16px; background: var(--bg-dark);
-    border-bottom: 1px solid var(--border); align-items: center; gap: 12px;
-}
-.mobile-header .logo-sm {
-    width: 32px; height: 32px; border-radius: 6px;
-    background: linear-gradient(135deg, var(--gold-primary), var(--gold-light));
-    display: flex; align-items: center; justify-content: center;
-    font-size: 12px; font-weight: 800; color: var(--bg-deepest);
-}
-.mobile-header select {
-    background: var(--bg-input); border: 1px solid var(--border); color: var(--text-primary);
-    border-radius: var(--radius); padding: 6px 10px; font-size: 13px; font-family: var(--font-main);
-}
+/* MOBILE */
+@media(max-width:768px){#sidebar{display:none}.mobile-header{display:flex !important}.layout-main{grid-template-columns:1fr !important}}
+.mobile-header{display:none;padding:12px 16px;background:var(--bg-dark);border-bottom:1px solid var(--border);align-items:center;gap:12px}
+.mobile-header .logo-sm{width:32px;height:32px;border-radius:6px;background:linear-gradient(135deg,var(--gold-primary),var(--gold-light));display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:var(--bg-deepest)}
+.mobile-header select{background:var(--bg-input);border:1px solid var(--border);color:var(--text-primary);border-radius:var(--radius);padding:6px 10px;font-size:13px;font-family:var(--font-main);flex:1}
+.mobile-header button{background:none;border:1px solid var(--border);border-radius:var(--radius);color:var(--text-secondary);padding:6px 10px;font-size:14px;cursor:pointer}
 </style>
 </head>
 <body>
 
-<!-- SPLASH -->
+<!-- SPLASH SCREEN -->
 <div id="splash">
     <div class="logo-mark">SS</div>
     <h1>VAIC <span>ScrollStop</span></h1>
-    <p>Voss AI Consulting</p>
+    <div class="splash-sub">Content Optimizer</div>
+    <div class="splash-tools">
+        <div class="splash-tool">✦ Text Formatter</div>
+        <div class="splash-tool">📊 Post Analyzer</div>
+        <div class="splash-tool">⚡ Hook Generator</div>
+        <div class="splash-tool"># Hashtag Analyzer</div>
+        <div class="splash-tool">📱 Post Preview</div>
+    </div>
     <div class="splash-loader"><div class="splash-loader-bar" id="splash-bar"></div></div>
 </div>
 
-<!-- APP -->
+<!-- HELP OVERLAY -->
+<div id="help-overlay" onclick="if(event.target===this)closeHelp()">
+    <div class="help-panel" style="position:relative">
+        <button class="help-close" onclick="closeHelp()">✕</button>
+        <h2>📖 How to Use <span>ScrollStop</span></h2>
+        <div class="help-sub">Five free tools to optimize your social content before you post.</div>
+
+        <div class="help-section">
+            <h3>✦ Text Formatter</h3>
+            <p>Type or paste text, select a style (bold, italic, monospace, etc.), and get Unicode-formatted text you can paste directly into LinkedIn, Twitter/X, or any platform. LinkedIn doesn't support native formatting — these Unicode characters render as styled text everywhere.</p>
+        </div>
+        <div class="help-section">
+            <h3>📊 Post Analyzer</h3>
+            <p>Paste your post to get real-time character count (with LinkedIn's 3,000 limit), Flesch-Kincaid readability score, hook strength analysis, and smart optimization tips. The readability ring turns green when your writing hits LinkedIn's ideal 6th–8th grade level.</p>
+        </div>
+        <div class="help-section">
+            <h3>⚡ Hook Generator</h3>
+            <p>Describe your topic, pick a tone, and generate scroll-stopping opening lines. Works with 40+ smart templates built-in. Add a Claude API key (optional) for AI-generated hooks tailored to your exact topic. Click any hook to copy it.</p>
+        </div>
+        <div class="help-section">
+            <h3># Hashtag Analyzer</h3>
+            <p>Paste your post and the analyzer detects your topics, then suggests relevant hashtags with follower counts. Click to select up to 5 (LinkedIn's recommended max), then copy them all at once. Mix broad and niche hashtags for maximum reach.</p>
+        </div>
+        <div class="help-section">
+            <h3>📱 Post Preview</h3>
+            <p>See exactly how your post appears on mobile vs. desktop, including where LinkedIn cuts it off with "see more." The mobile fold hits around 210 characters, desktop around 450. Make sure your hook and key message land above the fold.</p>
+        </div>
+        <div class="help-section">
+            <h3>📲 Install as an App</h3>
+            <p><strong>iPhone/iPad:</strong> Tap Share → "Add to Home Screen"</p>
+            <p><strong>Android:</strong> Tap the menu → "Add to Home Screen" or accept the install prompt</p>
+            <p><strong>Desktop:</strong> Click the install icon in your browser's address bar</p>
+            <p>ScrollStop works offline after installation and updates automatically.</p>
+        </div>
+        <div class="help-footer">
+            Built by <a href="https://www.vossaiconsulting.com" target="_blank">Voss AI Consulting</a> · <a href="https://www.linkedin.com/in/ai-robvoss/" target="_blank">Dr. Rob Voss</a><br>
+            Transforming Potential into Performance with AI
+        </div>
+    </div>
+</div>
+
+<!-- APP SHELL -->
 <div id="app">
+    <!-- SIDEBAR -->
+    <nav id="sidebar">
+        <div class="sidebar-brand">
+            <div class="logo-sm">SS</div>
+            <div><div class="brand-text">VAIC <span>ScrollStop</span></div><div class="brand-sub">Content Optimizer</div></div>
+        </div>
+        <div class="sidebar-nav">
+            <div class="nav-section">Tools</div>
+            <button class="nav-btn active" onclick="showPage('formatter',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7V4h16v3M9 20h6M12 4v16"/></svg>Text Formatter</button>
+            <button class="nav-btn" onclick="showPage('analyzer',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>Post Analyzer</button>
+            <button class="nav-btn" onclick="showPage('hooks',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>Hook Generator<span class="badge">AI</span></button>
+            <button class="nav-btn" onclick="showPage('hashtags',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 9h16M4 15h16M10 3l-2 18M16 3l-2 18"/></svg>Hashtag Analyzer</button>
+            <button class="nav-btn" onclick="showPage('preview',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>Post Preview</button>
+        </div>
+        <div class="sidebar-footer">
+            <a href="https://www.vossaiconsulting.com" target="_blank">Voss AI Consulting</a><br>
+            Transforming Potential<br>into Performance with AI
+            <button class="help-btn" onclick="openHelp()">❓ How to Use ScrollStop</button>
+        </div>
+    </nav>
 
-<!-- SIDEBAR -->
-<div id="sidebar">
-    <div class="sidebar-brand">
+    <!-- MOBILE HEADER -->
+    <div style="flex:1;display:flex;flex-direction:column;overflow:hidden">
+    <div class="mobile-header">
         <div class="logo-sm">SS</div>
-        <div>
-            <div class="brand-text">VAIC <span>ScrollStop</span></div>
-            <div class="brand-sub">Content Optimizer</div>
-        </div>
+        <select id="mobile-nav" onchange="showPage(this.value)">
+            <option value="formatter">✦ Text Formatter</option>
+            <option value="analyzer">📊 Post Analyzer</option>
+            <option value="hooks">⚡ Hook Generator</option>
+            <option value="hashtags"># Hashtag Analyzer</option>
+            <option value="preview">📱 Post Preview</option>
+        </select>
+        <button onclick="openHelp()">❓</button>
     </div>
-    <div class="sidebar-nav">
-        <div class="nav-section">Tools</div>
-        <button class="nav-btn active" data-page="analyzer" onclick="showPage('analyzer', this)">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20V10m6 10V4M6 20v-4"/></svg>
-            Post Analyzer
-        </button>
-        <button class="nav-btn" data-page="hooks" onclick="showPage('hooks', this)">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-            Hook Generator
-            <span class="badge-new">AI</span>
-        </button>
-        <button class="nav-btn" data-page="hashtags" onclick="showPage('hashtags', this)">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 9h16M4 15h16M10 3l-2 18M16 3l-2 18"/></svg>
-            Hashtag Analyzer
-        </button>
-        <button class="nav-btn" data-page="preview" onclick="showPage('preview', this)">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>
-            Post Preview
-        </button>
-    </div>
-    <div class="sidebar-footer">
-        <a href="https://www.vossaiconsulting.com" target="_blank">Voss AI Consulting</a><br>
-        Transforming Potential<br>into Performance with AI
-    </div>
-</div>
+    <div id="main">
 
-<!-- MAIN -->
-<div id="main">
+    <!-- PAGE 1: TEXT FORMATTER (DEFAULT) -->
+    <div class="page active" id="page-formatter">
+        <div class="page-header">
+            <div><h2><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7V4h16v3M9 20h6M12 4v16"/></svg>Text Formatter</h2><div class="page-desc">Unicode text styles for LinkedIn, X, and social posts</div></div>
+        </div>
+        <div class="page-body">
+            <div class="layout-main">
+                <div class="flex-col">
+                    <div class="card">
+                        <div class="card-label">Type or paste your text</div>
+                        <textarea id="fmt-input" style="min-height:160px" placeholder="Type the text you want to format here...
 
-<!-- Mobile header -->
-<div class="mobile-header">
-    <div class="logo-sm">SS</div>
-    <select onchange="showPage(this.value)" id="mobile-nav">
-        <option value="analyzer">Post Analyzer</option>
-        <option value="hooks">Hook Generator</option>
-        <option value="hashtags">Hashtag Analyzer</option>
-        <option value="preview">Post Preview</option>
-    </select>
-</div>
-
-<!-- ════════════════════════════════════════════════════════════
-     PAGE 1: POST ANALYZER
-     ════════════════════════════════════════════════════════════ -->
-<div class="page active" id="page-analyzer">
-<div class="page-header">
-    <div>
-        <h2><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20V10m6 10V4M6 20v-4"/></svg> Post Analyzer</h2>
-        <div class="page-desc">Character count, readability, hook analysis, and optimization tips</div>
-    </div>
-</div>
-<div class="page-body">
-<div class="layout-main">
-    <!-- Editor -->
-    <div class="flex-col">
-        <div class="card">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-                <div class="card-label" style="margin:0">Your LinkedIn Post</div>
-                <div style="font-family:var(--font-mono);font-size:13px;font-weight:600"><span id="a-live-count" style="color:var(--gold-light)">0</span><span style="color:var(--text-muted)"> / 3,000</span></div>
-            </div>
-            <textarea id="a-input" placeholder="Start typing your LinkedIn post here...
-
-The best posts open with a hook that stops the scroll. Try starting with a bold stat, a contrarian take, or a personal confession." oninput="analyzePost()"></textarea>
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px">
-                <div style="font-size:12px;display:flex;align-items:center;gap:6px"><span class="hook-dot" id="a-hook-dot" style="background:var(--text-muted)"></span><span id="a-hook-status" style="color:var(--text-muted)">Waiting for content...</span></div>
-                <button class="btn btn-ghost btn-sm" onclick="document.getElementById('a-input').value='';analyzePost()">Clear</button>
-            </div>
-        </div>
-        <!-- Hook detail -->
-        <div class="card" id="a-hook-card" style="display:none">
-            <div class="card-label">Opening Line Analysis</div>
-            <div id="a-hook-line" style="font-size:14px;color:var(--text-secondary);font-style:italic;margin-bottom:10px;line-height:1.6"></div>
-            <div id="a-hook-verdict" style="font-size:13px;font-weight:600"></div>
-        </div>
-    </div>
-    <!-- Sidebar panels -->
-    <div class="flex-col">
-        <div class="card">
-            <div class="card-label">Character Count</div>
-            <div class="gauge-track"><div class="gauge-fill" id="a-char-gauge" style="width:0%;background:var(--blue-mid)"></div></div>
-            <div class="gauge-labels"><span>0</span><span>1,300</span><span>3,000</span></div>
-            <div id="a-char-zone" style="font-size:12px;font-weight:600;margin-top:8px;color:var(--text-muted)">Write something to begin</div>
-            <div class="stat-grid" style="margin-top:14px">
-                <div class="stat-box"><div class="num" id="a-words" style="color:var(--blue-bright)">0</div><div class="lbl">Words</div></div>
-                <div class="stat-box"><div class="num" id="a-lines" style="color:var(--gold-light)">0</div><div class="lbl">Lines</div></div>
-                <div class="stat-box"><div class="num" id="a-paras" style="color:var(--blue-light)">0</div><div class="lbl">Paragraphs</div></div>
-                <div class="stat-box"><div class="num" id="a-time" style="color:var(--success)">0s</div><div class="lbl">Read Time</div></div>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-label">Readability Score</div>
-            <div style="display:flex;align-items:center;gap:16px">
-                <div class="ring-wrap">
-                    <svg viewBox="0 0 36 36"><circle class="bg" cx="18" cy="18" r="15.9"/><circle class="fg" id="a-read-ring" cx="18" cy="18" r="15.9" stroke-dasharray="0 100" stroke="var(--text-muted)"/></svg>
-                    <div class="ring-label"><div class="rn" id="a-read-score">--</div><div class="rs" id="a-read-grade">Grade</div></div>
-                </div>
-                <div style="font-size:12px;color:var(--text-secondary);line-height:1.6">
-                    Avg sentence: <strong id="a-avg-sent" style="color:var(--text-primary)">--</strong> words<br>
-                    Avg word: <strong id="a-avg-word" style="color:var(--text-primary)">--</strong> chars<br>
-                    Grade level: <strong id="a-grade-level" style="color:var(--text-primary)">--</strong>
-                </div>
-            </div>
-            <div id="a-read-verdict" style="font-size:12px;color:var(--text-secondary);margin-top:12px;line-height:1.5"></div>
-        </div>
-        <div class="card">
-            <div class="card-label">Optimization Tips</div>
-            <div class="flex-col" id="a-tips" style="gap:8px">
-                <div class="tip"><div class="tip-icon" style="background:rgba(74,144,217,.15)">&#x270F;</div>Start writing to get real-time tips.</div>
-            </div>
-        </div>
-    </div>
-</div>
-</div>
-</div>
-
-<!-- ════════════════════════════════════════════════════════════
-     PAGE 2: HOOK GENERATOR
-     ════════════════════════════════════════════════════════════ -->
-<div class="page" id="page-hooks">
-<div class="page-header">
-    <div>
-        <h2><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg> Hook Generator</h2>
-        <div class="page-desc">AI-powered opening lines that stop the scroll</div>
-    </div>
-</div>
-<div class="page-body">
-<div class="flex-col" style="max-width:720px">
-    <div class="card">
-        <div class="card-label">What's your post about?</div>
-        <textarea id="h-topic" style="min-height:100px" placeholder="Describe your post topic, key message, or paste a draft. The more context you give, the better the hooks.
-
-Example: I want to write about how most AI training for companies fails because it's too theoretical and doesn't give people hands-on practice with their actual workflows."></textarea>
-        <div class="grid-2" style="margin-top:12px">
-            <div>
-                <label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:4px">Tone</label>
-                <select id="h-tone" style="background:var(--bg-input);border:1px solid var(--border);color:var(--text-primary);border-radius:var(--radius);padding:8px 12px;font-size:13px;width:100%">
-                    <option value="professional">Professional</option>
-                    <option value="bold">Bold / Contrarian</option>
-                    <option value="storytelling">Storytelling</option>
-                    <option value="data-driven">Data-Driven</option>
-                    <option value="vulnerable">Vulnerable / Personal</option>
-                </select>
-            </div>
-            <div>
-                <label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:4px">Number of hooks</label>
-                <select id="h-count" style="background:var(--bg-input);border:1px solid var(--border);color:var(--text-primary);border-radius:var(--radius);padding:8px 12px;font-size:13px;width:100%">
-                    <option value="5" selected>5 hooks</option>
-                    <option value="3">3 hooks</option>
-                    <option value="8">8 hooks</option>
-                </select>
-            </div>
-        </div>
-    </div>
-    <div class="api-section" id="h-api-section">
-        <label>Claude API Key <span style="font-size:10px;color:var(--text-muted)">(optional — uses your own key)</span></label>
-        <input type="text" id="h-api-key" placeholder="sk-ant-api03-..." style="font-family:var(--font-mono);font-size:12px">
-        <div class="api-note">Your key is never stored or sent anywhere except directly to Anthropic's API. Leave blank to use the built-in key.</div>
-    </div>
-    <div class="gen-area">
-        <button class="btn btn-gold btn-lg" onclick="generateHooks()" id="h-gen-btn">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-            Generate Hooks
-        </button>
-        <span id="h-status" style="font-size:12px;color:var(--text-muted)"></span>
-    </div>
-    <div id="h-results" class="gen-output"></div>
-</div>
-</div>
-</div>
-
-<!-- ════════════════════════════════════════════════════════════
-     PAGE 3: HASHTAG ANALYZER
-     ════════════════════════════════════════════════════════════ -->
-<div class="page" id="page-hashtags">
-<div class="page-header">
-    <div>
-        <h2><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 9h16M4 15h16M10 3l-2 18M16 3l-2 18"/></svg> Hashtag Analyzer</h2>
-        <div class="page-desc">Find the right hashtags for reach and relevance</div>
-    </div>
-</div>
-<div class="page-body">
-<div class="flex-col" style="max-width:720px">
-    <div class="card">
-        <div class="card-label">Your post content or topic</div>
-        <textarea id="ht-input" style="min-height:100px" placeholder="Paste your post or describe your topic. The analyzer will suggest relevant hashtags based on your content." oninput="analyzeHashtags()"></textarea>
-    </div>
-    <div class="card" id="ht-results-card" style="display:none">
-        <div class="card-label">Suggested Hashtags</div>
-        <div style="font-size:12px;color:var(--text-muted);margin-bottom:14px">Click to select. LinkedIn recommends 3–5 hashtags per post.</div>
-        <div class="hashtag-grid" id="ht-grid"></div>
-        <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border)">
-            <div class="card-label">Selected Hashtags <span id="ht-count" style="color:var(--gold-light)">(0)</span></div>
-            <div class="selected-tags" id="ht-selected"></div>
-            <button class="btn btn-gold btn-sm" style="margin-top:10px" onclick="copyHashtags()" id="ht-copy-btn">Copy to Clipboard</button>
-        </div>
-    </div>
-    <div class="card">
-        <div class="card-label">Hashtag Best Practices</div>
-        <div class="flex-col" style="gap:8px">
-            <div class="tip"><div class="tip-icon" style="background:rgba(201,162,39,.12)">3-5</div>Use 3–5 hashtags per post. More looks spammy, fewer limits reach.</div>
-            <div class="tip"><div class="tip-icon" style="background:rgba(74,144,217,.15)">#</div>Mix broad hashtags (#AI, #Leadership) with niche ones (#EdTech, #AITraining).</div>
-            <div class="tip"><div class="tip-icon" style="background:rgba(46,204,113,.12)">&#x2193;</div>Place hashtags at the end of your post, not inline with text.</div>
-            <div class="tip"><div class="tip-icon" style="background:rgba(45,95,138,.2)">&#x1F50D;</div>Follow your own hashtags to see what content performs well in each.</div>
-        </div>
-    </div>
-</div>
-</div>
-</div>
-
-<!-- ════════════════════════════════════════════════════════════
-     PAGE 4: POST PREVIEW
-     ════════════════════════════════════════════════════════════ -->
-<div class="page" id="page-preview">
-<div class="page-header">
-    <div>
-        <h2><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg> Post Preview</h2>
-        <div class="page-desc">See how your post looks on mobile vs. desktop</div>
-    </div>
-</div>
-<div class="page-body">
-<div class="flex-col" style="max-width:900px">
-    <div class="card">
-        <div class="card-label">Your Post</div>
-        <textarea id="p-input" style="min-height:120px" placeholder="Paste or type your post to see how it will appear on LinkedIn." oninput="updatePreview()"></textarea>
-        <div class="grid-2" style="margin-top:12px">
-            <div>
-                <label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:4px">Display Name</label>
-                <input type="text" id="p-name" value="Dr. Rob Voss" oninput="updatePreview()">
-            </div>
-            <div>
-                <label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:4px">Headline</label>
-                <input type="text" id="p-headline" value="AI Consultant | OpenAI Academy | Associate Professor" oninput="updatePreview()">
-            </div>
-        </div>
-    </div>
-    <div class="grid-2">
-        <div>
-            <div class="card-label" style="margin-bottom:10px;padding-left:4px">&#x1F4F1; Mobile Preview</div>
-            <div class="preview-frame mobile" id="p-mobile">
-                <div class="preview-header">
-                    <div class="preview-avatar" id="p-m-avatar">RV</div>
-                    <div class="preview-meta">
-                        <div class="preview-name" id="p-m-name">Dr. Rob Voss</div>
-                        <div class="preview-headline" id="p-m-headline">AI Consultant | OpenAI Academy</div>
-                        <div class="preview-time">Just now · &#x1F310;</div>
+Example: This text will become 𝗯𝗼𝗹𝗱, 𝘪𝘵𝘢𝘭𝘪𝘤, or other styles." oninput="formatText()"></textarea>
+                    </div>
+                    <div class="card">
+                        <div class="card-label">Formatted Output</div>
+                        <div class="fmt-preview" id="fmt-output" onclick="selectAllOutput(this)"></div>
+                        <div class="fmt-copy-bar">
+                            <button class="btn btn-gold" onclick="copyFormatted()">📋 Copy to Clipboard</button>
+                            <span id="fmt-copy-status" style="font-size:12px;color:var(--text-muted)"></span>
+                        </div>
                     </div>
                 </div>
-                <div class="preview-body"><div class="preview-text" id="p-m-text"></div></div>
-                <div class="preview-actions">
-                    <div class="preview-action">&#x1F44D; Like</div>
-                    <div class="preview-action">&#x1F4AC; Comment</div>
-                    <div class="preview-action">&#x1F501; Repost</div>
-                    <div class="preview-action">&#x2709; Send</div>
-                </div>
-            </div>
-        </div>
-        <div>
-            <div class="card-label" style="margin-bottom:10px;padding-left:4px">&#x1F5A5; Desktop Preview</div>
-            <div class="preview-frame desktop" id="p-desktop">
-                <div class="preview-header">
-                    <div class="preview-avatar" id="p-d-avatar">RV</div>
-                    <div class="preview-meta">
-                        <div class="preview-name" id="p-d-name">Dr. Rob Voss</div>
-                        <div class="preview-headline" id="p-d-headline">AI Consultant | OpenAI Academy</div>
-                        <div class="preview-time">Just now · &#x1F310;</div>
+                <div class="flex-col">
+                    <div class="card">
+                        <div class="card-label">Choose Style</div>
+                        <div class="fmt-toolbar" id="fmt-toolbar">
+                            <button class="fmt-btn active" onclick="setFormat('bold',this)">𝗕𝗼𝗹𝗱</button>
+                            <button class="fmt-btn" onclick="setFormat('italic',this)">𝘐𝘵𝘢𝘭𝘪𝘤</button>
+                            <button class="fmt-btn" onclick="setFormat('bolditalic',this)">𝘽𝙤𝙡𝙙 𝙄𝙩𝙖𝙡𝙞𝙘</button>
+                            <button class="fmt-btn" onclick="setFormat('mono',this)">𝙼𝚘𝚗𝚘</button>
+                            <button class="fmt-btn" onclick="setFormat('script',this)">𝒮𝒸𝓇𝒾𝓅𝓉</button>
+                            <button class="fmt-btn" onclick="setFormat('scriptbold',this)">𝓢𝓬𝓻𝓲𝓹𝓽 𝓑𝓸𝓵𝓭</button>
+                            <button class="fmt-btn" onclick="setFormat('fraktur',this)">𝔉𝔯𝔞𝔨𝔱𝔲𝔯</button>
+                            <button class="fmt-btn" onclick="setFormat('doublestruck',this)">𝔻𝕠𝕦𝕓𝕝𝕖</button>
+                            <button class="fmt-btn" onclick="setFormat('circled',this)">Ⓒⓘⓡⓒⓛⓔ</button>
+                            <button class="fmt-btn" onclick="setFormat('squared',this)">🅂🅀🅄🄰🅁🄴</button>
+                            <button class="fmt-btn" onclick="setFormat('fullwidth',this)">Ｆｕｌｌ</button>
+                            <button class="fmt-btn" onclick="setFormat('smallcaps',this)">Sᴍᴀʟʟᴄᴀᴘs</button>
+                            <button class="fmt-btn" onclick="setFormat('strikethrough',this)">S̶t̶r̶i̶k̶e̶</button>
+                            <button class="fmt-btn" onclick="setFormat('underline',this)">U̲n̲d̲e̲r̲</button>
+                        </div>
                     </div>
-                </div>
-                <div class="preview-body"><div class="preview-text" id="p-d-text"></div></div>
-                <div class="preview-actions">
-                    <div class="preview-action">&#x1F44D; Like</div>
-                    <div class="preview-action">&#x1F4AC; Comment</div>
-                    <div class="preview-action">&#x1F501; Repost</div>
-                    <div class="preview-action">&#x2709; Send</div>
+                    <div class="card">
+                        <div class="card-label">How It Works</div>
+                        <div class="flex-col" style="gap:8px">
+                            <div class="tip"><div class="tip-icon" style="background:rgba(201,162,39,.12)">✦</div>These are Unicode characters, not formatting. They render as styled text on LinkedIn, X, Facebook, and most platforms.</div>
+                            <div class="tip"><div class="tip-icon" style="background:rgba(74,144,217,.15)">⚠</div>Use sparingly. A bold word or phrase draws the eye. An entire bold post looks spammy and hurts readability.</div>
+                            <div class="tip"><div class="tip-icon" style="background:rgba(46,204,113,.12)">♿</div>Screen readers may struggle with Unicode text. Use for emphasis, not full paragraphs, to keep posts accessible.</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-</div>
-</div>
 
-</div><!-- /main -->
-</div><!-- /app -->
+    <!-- PAGE 2: POST ANALYZER -->
+    <div class="page" id="page-analyzer">
+        <div class="page-header">
+            <div><h2><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>Post Analyzer</h2><div class="page-desc">Character count, readability, hook analysis, and optimization tips</div></div>
+        </div>
+        <div class="page-body">
+            <div class="layout-main">
+                <div class="flex-col">
+                    <div class="card">
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+                            <div class="card-label" style="margin:0">Your Post</div>
+                            <div style="font-family:var(--font-mono);font-size:13px;font-weight:600"><span id="a-live-count" style="color:var(--gold-light)">0</span><span style="color:var(--text-muted)"> / 3,000</span></div>
+                        </div>
+                        <textarea id="a-input" placeholder="Start typing your post here...
+
+The best posts open with a hook that stops the scroll. Try a bold stat, a contrarian take, or a personal confession." oninput="analyzePost()"></textarea>
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px">
+                            <div style="font-size:12px;display:flex;align-items:center;gap:6px"><span class="hook-dot" id="a-hook-dot" style="background:var(--text-muted)"></span><span id="a-hook-status" style="color:var(--text-muted)">Waiting for content...</span></div>
+                            <button class="btn btn-ghost btn-sm" onclick="document.getElementById('a-input').value='';analyzePost()">Clear</button>
+                        </div>
+                    </div>
+                    <div class="card" id="a-hook-card" style="display:none">
+                        <div class="card-label">Opening Line Analysis</div>
+                        <div id="a-hook-line" style="font-size:14px;color:var(--text-secondary);font-style:italic;margin-bottom:10px;line-height:1.6"></div>
+                        <div id="a-hook-verdict" style="font-size:13px;font-weight:600"></div>
+                    </div>
+                </div>
+                <div class="flex-col">
+                    <div class="card">
+                        <div class="card-label">Character Count</div>
+                        <div class="gauge-track"><div class="gauge-fill" id="a-gauge" style="width:0%;background:var(--blue-mid)"></div></div>
+                        <div class="gauge-labels"><span>0</span><span>1,300</span><span>3,000</span></div>
+                        <div id="a-zone" style="font-size:12px;font-weight:600;margin-top:8px;color:var(--text-muted)">Write something to begin</div>
+                        <div class="stat-grid" style="margin-top:14px">
+                            <div class="stat-box"><div class="num" id="a-words" style="color:var(--blue-bright)">0</div><div class="lbl">Words</div></div>
+                            <div class="stat-box"><div class="num" id="a-lines" style="color:var(--gold-light)">0</div><div class="lbl">Lines</div></div>
+                            <div class="stat-box"><div class="num" id="a-paras" style="color:var(--blue-light)">0</div><div class="lbl">Paragraphs</div></div>
+                            <div class="stat-box"><div class="num" id="a-time" style="color:var(--success)">0s</div><div class="lbl">Read Time</div></div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-label">Readability Score</div>
+                        <div style="display:flex;align-items:center;gap:16px">
+                            <div class="ring-wrap"><svg viewBox="0 0 36 36"><circle class="bg" cx="18" cy="18" r="15.9"/><circle class="fg" id="a-ring" cx="18" cy="18" r="15.9" stroke-dasharray="0 100" stroke="var(--text-muted)"/></svg><div class="ring-label"><div class="rn" id="a-rscore">--</div><div class="rs" id="a-rgrade">Grade</div></div></div>
+                            <div style="font-size:12px;color:var(--text-secondary);line-height:1.6">Avg sentence: <strong id="a-avgsent" style="color:var(--text-primary)">--</strong> words<br>Avg word: <strong id="a-avgword" style="color:var(--text-primary)">--</strong> chars<br>Grade level: <strong id="a-grade" style="color:var(--text-primary)">--</strong></div>
+                        </div>
+                        <div id="a-rverdict" style="font-size:12px;color:var(--text-secondary);margin-top:12px;line-height:1.5"></div>
+                    </div>
+                    <div class="card">
+                        <div class="card-label">Optimization Tips</div>
+                        <div class="flex-col" id="a-tips" style="gap:8px"><div class="tip"><div class="tip-icon" style="background:rgba(74,144,217,.15)">✏</div>Start writing to get real-time tips.</div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 3: HOOK GENERATOR -->
+    <div class="page" id="page-hooks">
+        <div class="page-header">
+            <div><h2><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>Hook Generator</h2><div class="page-desc">AI-powered opening lines that stop the scroll</div></div>
+        </div>
+        <div class="page-body" style="max-width:720px">
+            <div class="flex-col">
+                <div class="card">
+                    <div class="card-label">What's your post about?</div>
+                    <textarea id="h-topic" style="min-height:100px" placeholder="Describe your post topic, key message, or paste a draft. The more context you give, the better the hooks."></textarea>
+                    <div class="grid-2" style="margin-top:12px">
+                        <div><label style="font-size:11px;color:var(--text-muted);font-weight:600;display:block;margin-bottom:4px">Tone</label><select id="h-tone"><option value="professional">Professional</option><option value="bold">Bold / Contrarian</option><option value="storytelling">Storytelling</option><option value="data-driven">Data-Driven</option><option value="vulnerable">Vulnerable / Personal</option></select></div>
+                        <div><label style="font-size:11px;color:var(--text-muted);font-weight:600;display:block;margin-bottom:4px">Number of hooks</label><select id="h-count"><option value="5" selected>5 hooks</option><option value="3">3 hooks</option><option value="8">8 hooks</option></select></div>
+                    </div>
+                </div>
+                <div class="api-section">
+                    <label>Claude API Key <span style="font-size:10px;color:var(--text-muted)">(optional)</span></label>
+                    <input type="text" id="h-api-key" placeholder="sk-ant-api03-...">
+                    <div class="api-note">Your key is sent directly to Anthropic's API and never stored. Leave blank for smart template hooks.</div>
+                </div>
+                <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+                    <button class="btn btn-gold btn-lg" onclick="generateHooks()" id="h-gen-btn">⚡ Generate Hooks</button>
+                    <span id="h-status" style="font-size:12px;color:var(--text-muted)"></span>
+                </div>
+                <div id="h-results"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 4: HASHTAG ANALYZER -->
+    <div class="page" id="page-hashtags">
+        <div class="page-header">
+            <div><h2><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 9h16M4 15h16M10 3l-2 18M16 3l-2 18"/></svg>Hashtag Analyzer</h2><div class="page-desc">Find the right hashtags for reach and relevance</div></div>
+        </div>
+        <div class="page-body" style="max-width:720px">
+            <div class="flex-col">
+                <div class="card">
+                    <div class="card-label">Your post content or topic</div>
+                    <textarea id="ht-input" style="min-height:100px" placeholder="Paste your post or describe your topic. The analyzer will suggest relevant hashtags based on your content." oninput="analyzeHashtags()"></textarea>
+                </div>
+                <div class="card" id="ht-results-card" style="display:none">
+                    <div class="card-label">Suggested Hashtags</div>
+                    <div style="font-size:12px;color:var(--text-muted);margin-bottom:14px">Click to select. LinkedIn recommends 3–5 hashtags per post.</div>
+                    <div class="hashtag-grid" id="ht-grid"></div>
+                    <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border)">
+                        <div class="card-label">Selected Hashtags <span id="ht-cnt" style="color:var(--gold-light)">(0)</span></div>
+                        <div class="selected-tags" id="ht-selected"><span style="font-size:12px;color:var(--text-muted)">Click hashtags above to select them</span></div>
+                        <button class="btn btn-gold" style="margin-top:10px" onclick="copyHashtags()" id="ht-copy-btn">Copy to Clipboard</button>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-label">Hashtag Best Practices</div>
+                    <div class="flex-col" style="gap:8px">
+                        <div class="tip"><div class="tip-icon" style="background:rgba(201,162,39,.12)">3-5</div>Use 3–5 hashtags per post. More looks spammy, fewer limits reach.</div>
+                        <div class="tip"><div class="tip-icon" style="background:rgba(74,144,217,.15)">#</div>Mix broad (#AI, #Leadership) with niche (#EdTech, #AITraining).</div>
+                        <div class="tip"><div class="tip-icon" style="background:rgba(46,204,113,.12)">↓</div>Place hashtags at the end of your post, not inline.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 5: POST PREVIEW -->
+    <div class="page" id="page-preview">
+        <div class="page-header">
+            <div><h2><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>Post Preview</h2><div class="page-desc">See your post on mobile vs. desktop before publishing</div></div>
+        </div>
+        <div class="page-body">
+            <div class="flex-col" style="max-width:900px">
+                <div class="card">
+                    <div class="card-label">Your Post</div>
+                    <textarea id="p-input" style="min-height:120px" placeholder="Paste or type your post to see how it will appear on LinkedIn." oninput="updatePreview()"></textarea>
+                    <div class="grid-2" style="margin-top:12px">
+                        <div><label style="font-size:11px;color:var(--text-muted);font-weight:600;display:block;margin-bottom:4px">Display Name</label><input type="text" id="p-name" value="Dr. Rob Voss" oninput="updatePreview()"></div>
+                        <div><label style="font-size:11px;color:var(--text-muted);font-weight:600;display:block;margin-bottom:4px">Headline</label><input type="text" id="p-headline" value="AI Consultant | OpenAI Academy | Associate Professor" oninput="updatePreview()"></div>
+                    </div>
+                    <div style="display:flex;gap:16px;margin-top:10px;flex-wrap:wrap">
+                        <span style="font-size:11px;color:var(--text-muted);font-family:var(--font-mono);background:rgba(45,95,138,.15);padding:3px 8px;border-radius:4px"><span id="p-chars">0</span> / 3,000 chars</span>
+                        <span style="font-size:11px;color:var(--text-muted);font-family:var(--font-mono);background:rgba(45,95,138,.15);padding:3px 8px;border-radius:4px">Mobile fold: ~210 chars</span>
+                        <span style="font-size:11px;color:var(--text-muted);font-family:var(--font-mono);background:rgba(45,95,138,.15);padding:3px 8px;border-radius:4px">Desktop fold: ~450 chars</span>
+                    </div>
+                </div>
+                <div class="grid-2">
+                    <div>
+                        <div class="card-label" style="margin-bottom:10px;padding-left:4px">📱 Mobile Preview</div>
+                        <div class="preview-frame mobile">
+                            <div class="preview-header"><div class="preview-avatar" id="pm-avatar">RV</div><div class="preview-meta"><div class="preview-name" id="pm-name">Dr. Rob Voss</div><div class="preview-headline" id="pm-headline">AI Consultant | OpenAI Academy</div><div class="preview-time">Just now · 🌐</div></div></div>
+                            <div class="preview-body"><div class="preview-text" id="pm-text"></div></div>
+                            <div class="preview-actions"><div class="preview-action">👍 Like</div><div class="preview-action">💬 Comment</div><div class="preview-action">🔁 Repost</div><div class="preview-action">✉ Send</div></div>
+                        </div>
+                        <div id="pm-note" style="font-size:12px;color:var(--text-muted);margin-top:8px;padding:10px;background:rgba(45,95,138,.08);border-radius:var(--radius);line-height:1.5"></div>
+                    </div>
+                    <div>
+                        <div class="card-label" style="margin-bottom:10px;padding-left:4px">🖥 Desktop Preview</div>
+                        <div class="preview-frame desktop">
+                            <div class="preview-header"><div class="preview-avatar" id="pd-avatar">RV</div><div class="preview-meta"><div class="preview-name" id="pd-name">Dr. Rob Voss</div><div class="preview-headline" id="pd-headline">AI Consultant | OpenAI Academy</div><div class="preview-time">Just now · 🌐</div></div></div>
+                            <div class="preview-body"><div class="preview-text" id="pd-text"></div></div>
+                            <div class="preview-actions"><div class="preview-action">👍 Like</div><div class="preview-action">💬 Comment</div><div class="preview-action">🔁 Repost</div><div class="preview-action">✉ Send</div></div>
+                        </div>
+                        <div id="pd-note" style="font-size:12px;color:var(--text-muted);margin-top:8px;padding:10px;background:rgba(45,95,138,.08);border-radius:var(--radius);line-height:1.5"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </div><!-- end #main -->
+    </div><!-- end flex wrapper -->
+</div><!-- end #app -->
 
 <script>
-// ══════════════════════════════════════════════════════════════
-// NAVIGATION
-// ══════════════════════════════════════════════════════════════
-function showPage(id, btn) {
-    document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
-    document.querySelectorAll('.nav-btn').forEach(function(b){ b.classList.remove('active'); });
-    document.getElementById('page-' + id).classList.add('active');
-    if (btn) btn.classList.add('active');
-    else document.querySelector('[data-page="'+id+'"]').classList.add('active');
-    var sel = document.getElementById('mobile-nav');
-    if (sel) sel.value = id;
-}
-
-// ══════════════════════════════════════════════════════════════
-// SPLASH
-// ══════════════════════════════════════════════════════════════
+// ============================================================
+// SPLASH SCREEN
+// ============================================================
 (function(){
     var bar = document.getElementById('splash-bar');
-    var steps = [30, 65, 100];
-    steps.forEach(function(w, i){
-        setTimeout(function(){ bar.style.width = w + '%'; }, (i+1) * 400);
-    });
+    setTimeout(function(){ bar.style.width = '30%' }, 100);
+    setTimeout(function(){ bar.style.width = '65%' }, 400);
+    setTimeout(function(){ bar.style.width = '100%' }, 800);
     setTimeout(function(){
         document.getElementById('splash').classList.add('hidden');
         document.getElementById('app').classList.add('visible');
-    }, 1600);
+    }, 1200);
 })();
 
-// ══════════════════════════════════════════════════════════════
+// ============================================================
+// NAVIGATION
+// ============================================================
+function showPage(id, btn) {
+    document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active') });
+    document.getElementById('page-' + id).classList.add('active');
+    if (btn) {
+        document.querySelectorAll('.nav-btn').forEach(function(b){ b.classList.remove('active') });
+        btn.classList.add('active');
+    }
+    document.getElementById('mobile-nav').value = id;
+}
+
+function openHelp() { document.getElementById('help-overlay').classList.add('visible'); }
+function closeHelp() { document.getElementById('help-overlay').classList.remove('visible'); }
+
+// ============================================================
+// TEXT FORMATTER — Unicode character maps
+// ============================================================
+var currentFormat = 'bold';
+
+// Unicode offset maps for mathematical alphanumeric symbols
+var MAPS = {};
+
+function buildMap(name, upperStart, lowerStart, digitStart) {
+    var m = {};
+    if (upperStart) for (var i = 0; i < 26; i++) m[String.fromCharCode(65 + i)] = String.fromCodePoint(upperStart + i);
+    if (lowerStart) for (var i = 0; i < 26; i++) m[String.fromCharCode(97 + i)] = String.fromCodePoint(lowerStart + i);
+    if (digitStart) for (var i = 0; i < 10; i++) m[String.fromCharCode(48 + i)] = String.fromCodePoint(digitStart + i);
+    MAPS[name] = m;
+}
+
+// Sans-serif bold: U+1D5D4 upper, U+1D5EE lower, U+1D7EC digits
+buildMap('bold', 0x1D5D4, 0x1D5EE, 0x1D7EC);
+// Sans-serif italic: U+1D608 upper, U+1D622 lower
+buildMap('italic', 0x1D608, 0x1D622, null);
+// Sans-serif bold italic: U+1D63C upper, U+1D656 lower
+buildMap('bolditalic', 0x1D63C, 0x1D656, null);
+// Monospace: U+1D670 upper, U+1D68A lower, U+1D7F6 digits
+buildMap('mono', 0x1D670, 0x1D68A, 0x1D7F6);
+// Script: U+1D49C upper, U+1D4B6 lower
+buildMap('script', 0x1D49C, 0x1D4B6, null);
+// Script bold: U+1D4D0 upper, U+1D4EA lower
+buildMap('scriptbold', 0x1D4D0, 0x1D4EA, null);
+// Fraktur: U+1D504 upper, U+1D51E lower
+buildMap('fraktur', 0x1D504, 0x1D51E, null);
+// Double-struck: U+1D538 upper, U+1D552 lower, U+1D7D8 digits
+buildMap('doublestruck', 0x1D538, 0x1D552, 0x1D7D8);
+
+// Script has exceptions (some chars already exist as single codepoints)
+// Fix known exceptions for script
+MAPS.script['B'] = '\u212C'; MAPS.script['E'] = '\u2130'; MAPS.script['F'] = '\u2131';
+MAPS.script['H'] = '\u210B'; MAPS.script['I'] = '\u2110'; MAPS.script['L'] = '\u2112';
+MAPS.script['M'] = '\u2133'; MAPS.script['R'] = '\u211B';
+MAPS.script['e'] = '\u212F'; MAPS.script['g'] = '\u210A'; MAPS.script['o'] = '\u2134';
+
+// Fraktur exceptions
+MAPS.fraktur['C'] = '\u212D'; MAPS.fraktur['H'] = '\u210C'; MAPS.fraktur['I'] = '\u2111';
+MAPS.fraktur['R'] = '\u211C'; MAPS.fraktur['Z'] = '\u2128';
+
+// Double-struck exceptions
+MAPS.doublestruck['C'] = '\u2102'; MAPS.doublestruck['H'] = '\u210D'; MAPS.doublestruck['N'] = '\u2115';
+MAPS.doublestruck['P'] = '\u2119'; MAPS.doublestruck['Q'] = '\u211A'; MAPS.doublestruck['R'] = '\u211D';
+MAPS.doublestruck['Z'] = '\u2124';
+
+// Circled letters
+(function(){
+    var m = {};
+    for (var i = 0; i < 26; i++) m[String.fromCharCode(65 + i)] = String.fromCodePoint(0x24B6 + i);
+    for (var i = 0; i < 26; i++) m[String.fromCharCode(97 + i)] = String.fromCodePoint(0x24D0 + i);
+    for (var i = 0; i < 10; i++) m[String.fromCharCode(48 + i)] = i === 0 ? '\u24EA' : String.fromCodePoint(0x2460 + i - 1);
+    MAPS.circled = m;
+})();
+
+// Squared letters (negative squared = filled)
+(function(){
+    var m = {};
+    for (var i = 0; i < 26; i++) m[String.fromCharCode(65 + i)] = String.fromCodePoint(0x1F130 + i);
+    for (var i = 0; i < 26; i++) m[String.fromCharCode(97 + i)] = String.fromCodePoint(0x1F130 + i);
+    MAPS.squared = m;
+})();
+
+// Fullwidth
+(function(){
+    var m = {};
+    for (var i = 33; i <= 126; i++) m[String.fromCharCode(i)] = String.fromCodePoint(0xFF01 + i - 33);
+    MAPS.fullwidth = m;
+})();
+
+// Small caps (approximate - using Latin letter small capitals)
+(function(){
+    var sc = 'ᴀʙᴄᴅᴇꜰɢʜɪᴊᴋʟᴍɴᴏᴘǫʀsᴛᴜᴠᴡxʏᴢ';
+    var arr = Array.from(sc);
+    var m = {};
+    for (var i = 0; i < 26; i++) {
+        m[String.fromCharCode(97 + i)] = arr[i];
+        m[String.fromCharCode(65 + i)] = String.fromCharCode(65 + i); // keep uppercase as-is
+    }
+    MAPS.smallcaps = m;
+})();
+
+// Combining characters (strikethrough, underline)
+MAPS.strikethrough = '__combining__';
+MAPS.underline = '__combining__';
+
+function convertText(text, format) {
+    if (format === 'strikethrough') {
+        return Array.from(text).map(function(c){ return c === '\n' ? c : c + '\u0336' }).join('');
+    }
+    if (format === 'underline') {
+        return Array.from(text).map(function(c){ return c === '\n' ? c : c + '\u0332' }).join('');
+    }
+    var map = MAPS[format];
+    if (!map) return text;
+    return Array.from(text).map(function(c){ return map[c] || c }).join('');
+}
+
+function setFormat(fmt, btn) {
+    currentFormat = fmt;
+    document.querySelectorAll('#fmt-toolbar .fmt-btn').forEach(function(b){ b.classList.remove('active') });
+    if (btn) btn.classList.add('active');
+    formatText();
+}
+
+function formatText() {
+    var input = document.getElementById('fmt-input').value;
+    var output = document.getElementById('fmt-output');
+    output.textContent = convertText(input, currentFormat);
+}
+
+function selectAllOutput(el) {
+    var range = document.createRange();
+    range.selectNodeContents(el);
+    var sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+}
+
+function copyFormatted() {
+    var text = document.getElementById('fmt-output').textContent;
+    if (!text) return;
+    navigator.clipboard.writeText(text);
+    var st = document.getElementById('fmt-copy-status');
+    st.textContent = 'Copied!'; st.style.color = 'var(--success)';
+    setTimeout(function(){ st.textContent = ''; }, 1500);
+}
+
+// ============================================================
 // POST ANALYZER
-// ══════════════════════════════════════════════════════════════
+// ============================================================
+function countSyll(w) { w=w.toLowerCase().replace(/[^a-z]/g,'');if(w.length<=2)return 1;w=w.replace(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/,'');w=w.replace(/^y/,'');var m=w.match(/[aeiouy]{1,2}/g);return m?m.length:1; }
+function scoreHook(l) { var s=0;if(/\d/.test(l))s++;if(/[?]/.test(l))s++;if(l.length<80)s++;if(/^(I |Here|Most|Stop|The |What|Why|How|Don|This|Every|Nobody|Unpopular|Hot take|Controversial|Truth|Forget|Imagine)/i.test(l))s++;if(/\b(secret|mistake|myth|truth|lesson|hack|tip|never|always|wrong|surprising|shocking)\b/i.test(l))s++;return Math.min(s,4); }
+
 function analyzePost() {
-    var text = document.getElementById('a-input').value;
-    var chars = text.length;
-    var words = text.trim() ? text.trim().split(/\s+/).length : 0;
-    var lines = text ? text.split('\n').length : 0;
-    var paras = text.trim() ? text.trim().split(/\n\s*\n/).filter(function(p){return p.trim()}).length : 0;
-    if (paras === 0 && words > 0) paras = 1;
-    var readSec = Math.ceil(words / 3.5);
-
-    // Live count
-    var lc = document.getElementById('a-live-count');
-    lc.textContent = chars.toLocaleString();
-    lc.style.color = chars > 3000 ? '#e74c3c' : chars > 2700 ? '#f39c12' : 'var(--gold-light)';
-
-    // Gauge
-    var pct = Math.min((chars / 3000) * 100, 100);
-    var g = document.getElementById('a-char-gauge');
-    g.style.width = pct + '%';
-    g.style.background = chars > 3000 ? 'var(--danger)' : chars > 2700 ? 'var(--warning)' : chars > 1300 ? 'var(--success)' : 'var(--blue-mid)';
-
-    // Zone
-    var zone = document.getElementById('a-char-zone');
-    if (chars === 0) { zone.textContent = 'Write something to begin'; zone.style.color = 'var(--text-muted)'; }
-    else if (chars <= 700) { zone.textContent = 'Short & punchy \u2014 great for engagement'; zone.style.color = 'var(--blue-bright)'; }
-    else if (chars <= 1300) { zone.textContent = 'Optimal range \u2014 LinkedIn\'s sweet spot'; zone.style.color = 'var(--success)'; }
-    else if (chars <= 2500) { zone.textContent = 'Long-form \u2014 make every line earn attention'; zone.style.color = 'var(--warning)'; }
-    else if (chars <= 3000) { zone.textContent = 'Near the limit \u2014 tighten where you can'; zone.style.color = 'var(--warning)'; }
-    else { zone.textContent = 'Over the 3,000 character limit!'; zone.style.color = 'var(--danger)'; }
-
-    // Stats
-    document.getElementById('a-words').textContent = words;
-    document.getElementById('a-lines').textContent = lines;
-    document.getElementById('a-paras').textContent = paras;
-    document.getElementById('a-time').textContent = readSec > 60 ? Math.floor(readSec/60)+'m' : readSec + 's';
-
-    // Readability
-    var sentences = text.split(/[.!?]+/).filter(function(s){return s.trim().length > 0});
-    var sentCount = Math.max(sentences.length, 1);
-    var totalSyll = 0;
-    var allWords = text.trim() ? text.trim().split(/\s+/) : [];
-    allWords.forEach(function(w){ totalSyll += countSyll(w); });
-    var avgSent = words / sentCount;
-    var avgSyllW = words > 0 ? totalSyll / words : 0;
-    var avgWordLen = 0;
-    if (allWords.length > 0) { var tc = allWords.reduce(function(a,w){return a+w.replace(/[^a-zA-Z]/g,'').length},0); avgWordLen = (tc/allWords.length).toFixed(1); }
-    var flesch = words > 0 ? 206.835 - (1.015*avgSent) - (84.6*avgSyllW) : 0;
-    flesch = Math.max(0, Math.min(100, Math.round(flesch)));
-    var fkGrade = words > 0 ? (0.39*avgSent) + (11.8*avgSyllW) - 15.59 : 0;
-    fkGrade = Math.max(0, Math.round(fkGrade*10)/10);
-
-    document.getElementById('a-avg-sent').textContent = avgSent.toFixed(1);
-    document.getElementById('a-avg-word').textContent = avgWordLen;
-    document.getElementById('a-grade-level').textContent = fkGrade > 0 ? fkGrade.toFixed(1) : '--';
-
-    var rs = document.getElementById('a-read-score');
-    var rg = document.getElementById('a-read-grade');
-    var ring = document.getElementById('a-read-ring');
-    if (words < 10) {
-        rs.textContent = '--'; rg.textContent = 'Grade'; ring.style.strokeDasharray = '0 100'; ring.style.stroke = 'var(--text-muted)';
-        document.getElementById('a-read-verdict').textContent = '';
-    } else {
-        rs.textContent = flesch;
-        var rc = flesch >= 60 ? 'var(--success)' : flesch >= 40 ? 'var(--warning)' : 'var(--danger)';
-        ring.style.stroke = rc; ring.style.strokeDasharray = flesch+' '+(100-flesch); rs.style.color = rc;
-        rg.textContent = flesch >= 70 ? 'Easy' : flesch >= 50 ? 'Good' : flesch >= 30 ? 'Dense' : 'Hard';
-        var v = document.getElementById('a-read-verdict');
-        if (flesch >= 60) v.innerHTML = '<span style="color:var(--success)">Great readability.</span> Clear and scannable \u2014 perfect for LinkedIn.';
-        else if (flesch >= 40) v.innerHTML = '<span style="color:var(--warning)">Moderate.</span> Consider shorter sentences for LinkedIn\'s fast-scrolling feed.';
-        else v.innerHTML = '<span style="color:var(--danger)">Dense.</span> Try shorter sentences and simpler words. Top LinkedIn content reads at 6th\u20138th grade level.';
-    }
-
-    // Hook
-    var hookCard = document.getElementById('a-hook-card');
-    var hookDot = document.getElementById('a-hook-dot');
-    var hookStat = document.getElementById('a-hook-status');
-    if (words >= 5) {
-        hookCard.style.display = '';
-        var first = text.split('\n')[0].trim();
-        document.getElementById('a-hook-line').textContent = first.length > 140 ? first.substring(0,140)+'\u2026' : first;
-        var hs = scoreHook(first);
-        if (hs >= 3) { hookDot.style.background='var(--success)'; hookStat.textContent='Strong hook'; hookStat.style.color='var(--success)'; document.getElementById('a-hook-verdict').innerHTML='<span style="color:var(--success)">\u2713 Scroll-stopping opener</span>'; }
-        else if (hs >= 2) { hookDot.style.background='var(--warning)'; hookStat.textContent='Decent hook'; hookStat.style.color='var(--warning)'; document.getElementById('a-hook-verdict').innerHTML='<span style="color:var(--warning)">\u25CB Try adding a number or bold claim</span>'; }
-        else { hookDot.style.background='var(--danger)'; hookStat.textContent='Weak hook'; hookStat.style.color='var(--danger)'; document.getElementById('a-hook-verdict').innerHTML='<span style="color:var(--danger)">\u2717 Open with a stat, question, or bold statement</span>'; }
-    } else { hookCard.style.display = 'none'; hookDot.style.background='var(--text-muted)'; hookStat.textContent='Waiting for content...'; hookStat.style.color='var(--text-muted)'; }
-
+    var t=document.getElementById('a-input').value,c=t.length,w=t.trim()?t.trim().split(/\s+/).length:0,l=t?t.split('\n').length:0,p=t.trim()?t.trim().split(/\n\s*\n/).filter(function(s){return s.trim()}).length:0;
+    if(p===0&&w>0)p=1; var rs=Math.ceil(w/3.5);
+    var lc=document.getElementById('a-live-count');lc.textContent=c.toLocaleString();lc.style.color=c>3000?'#e74c3c':c>2700?'#f39c12':'var(--gold-light)';
+    var pct=Math.min((c/3000)*100,100),g=document.getElementById('a-gauge');g.style.width=pct+'%';g.style.background=c>3000?'var(--danger)':c>2700?'var(--warning)':c>1300?'var(--success)':'var(--blue-mid)';
+    var z=document.getElementById('a-zone');
+    if(c===0){z.textContent='Write something to begin';z.style.color='var(--text-muted)'}
+    else if(c<=700){z.textContent='Short & punchy — great for engagement';z.style.color='var(--blue-bright)'}
+    else if(c<=1300){z.textContent='Optimal range — LinkedIn\'s sweet spot';z.style.color='var(--success)'}
+    else if(c<=2500){z.textContent='Long-form — make every line earn attention';z.style.color='var(--warning)'}
+    else if(c<=3000){z.textContent='Near the limit — tighten where you can';z.style.color='var(--warning)'}
+    else{z.textContent='Over the 3,000 character limit!';z.style.color='var(--danger)'}
+    document.getElementById('a-words').textContent=w;document.getElementById('a-lines').textContent=l;document.getElementById('a-paras').textContent=p;document.getElementById('a-time').textContent=rs>60?Math.floor(rs/60)+'m':rs+'s';
+    var sents=t.split(/[.!?]+/).filter(function(s){return s.trim().length>0}),sc=Math.max(sents.length,1),ts=0,aw=t.trim()?t.trim().split(/\s+/):[];
+    aw.forEach(function(x){ts+=countSyll(x)});
+    var as=w/sc,asp=w>0?ts/w:0,awl=0;
+    if(aw.length>0){var tc=aw.reduce(function(a,x){return a+x.replace(/[^a-zA-Z]/g,'').length},0);awl=(tc/aw.length).toFixed(1)}
+    var fl=w>0?206.835-(1.015*as)-(84.6*asp):0;fl=Math.max(0,Math.min(100,Math.round(fl)));
+    var fk=w>0?(0.39*as)+(11.8*asp)-15.59:0;fk=Math.max(0,Math.round(fk*10)/10);
+    document.getElementById('a-avgsent').textContent=as.toFixed(1);document.getElementById('a-avgword').textContent=awl;document.getElementById('a-grade').textContent=fk>0?fk.toFixed(1):'--';
+    var rse=document.getElementById('a-rscore'),rge=document.getElementById('a-rgrade'),ring=document.getElementById('a-ring');
+    if(w<10){rse.textContent='--';rge.textContent='Grade';ring.style.strokeDasharray='0 100';ring.style.stroke='var(--text-muted)';document.getElementById('a-rverdict').textContent=''}
+    else{rse.textContent=fl;var rc=fl>=60?'var(--success)':fl>=40?'var(--warning)':'var(--danger)';ring.style.stroke=rc;ring.style.strokeDasharray=fl+' '+(100-fl);rse.style.color=rc;rge.textContent=fl>=70?'Easy':fl>=50?'Good':fl>=30?'Dense':'Hard';var v=document.getElementById('a-rverdict');if(fl>=60)v.innerHTML='<span style="color:var(--success)">Great readability.</span> Clear and scannable — perfect for LinkedIn.';else if(fl>=40)v.innerHTML='<span style="color:var(--warning)">Moderate.</span> Consider shorter sentences.';else v.innerHTML='<span style="color:var(--danger)">Dense.</span> Try shorter sentences. Top content reads at 6th–8th grade level.'}
+    // Hook analysis
+    var hc=document.getElementById('a-hook-card'),hd=document.getElementById('a-hook-dot'),hs=document.getElementById('a-hook-status');
+    if(w>=5){hc.style.display='';var first=t.split('\n')[0].trim();document.getElementById('a-hook-line').textContent=first.length>140?first.substring(0,140)+'…':first;var s2=scoreHook(first);if(s2>=3){hd.style.background='var(--success)';hs.textContent='Strong hook';hs.style.color='var(--success)';document.getElementById('a-hook-verdict').innerHTML='<span style="color:var(--success)">✓ Scroll-stopping opener</span>'}else if(s2>=2){hd.style.background='var(--warning)';hs.textContent='Decent hook';hs.style.color='var(--warning)';document.getElementById('a-hook-verdict').innerHTML='<span style="color:var(--warning)">○ Try adding a number or bold claim</span>'}else{hd.style.background='var(--danger)';hs.textContent='Weak hook';hs.style.color='var(--danger)';document.getElementById('a-hook-verdict').innerHTML='<span style="color:var(--danger)">✗ Open with a stat, question, or bold statement</span>'}}
+    else{hc.style.display='none';hd.style.background='var(--text-muted)';hs.textContent='Waiting for content...';hs.style.color='var(--text-muted)'}
     // Tips
-    genTips(text, chars, words, avgSent, flesch, paras);
+    var tips=[],hb=t.indexOf('\n\n')!==-1,cta=/\b(comment|share|follow|link|DM|reply|thoughts|agree|disagree)\b/i.test(t.slice(-200)),hcnt=(t.match(/#\w+/g)||[]).length;
+    if(w===0){tips.push({i:'✏',cl:'rgba(74,144,217,.15)',t:'Start writing to get personalized tips.'})}
+    else{if(c>1000&&c<=1300)tips.push({i:'✅',cl:'rgba(46,204,113,.12)',t:'Great length! 1,000–1,300 chars is the sweet spot.'});else if(c<300&&w>10)tips.push({i:'↗',cl:'rgba(74,144,217,.15)',t:'Consider expanding. Posts under 300 chars get less reach.'});else if(c>2500)tips.push({i:'✂',cl:'rgba(201,162,39,.12)',t:'Long post! Make the first 3 lines compelling.'});if(!hb&&w>50)tips.push({i:'¶',cl:'rgba(74,144,217,.15)',t:'Add line breaks. Wall-of-text posts get scrolled past.'});if(as>25)tips.push({i:'✂',cl:'rgba(201,162,39,.12)',t:'Avg sentence is '+as.toFixed(0)+' words. Keep under 20.'});if(fl<40&&w>20)tips.push({i:'📖',cl:'rgba(231,76,60,.12)',t:'Readability is low. Use simpler words and shorter sentences.'});if(!cta&&w>50)tips.push({i:'💬',cl:'rgba(74,144,217,.15)',t:'No CTA detected. End with a question to boost engagement.'});if(hcnt===0&&w>30)tips.push({i:'#',cl:'rgba(201,162,39,.12)',t:'Add 3–5 hashtags at the end for discoverability.'});if(hcnt>5)tips.push({i:'#',cl:'rgba(231,76,60,.12)',t:hcnt+' hashtags is too many. LinkedIn recommends 3–5.'});if(tips.length===0)tips.push({i:'✅',cl:'rgba(46,204,113,.12)',t:'Looking solid! Your post checks the major boxes.'})}
+    document.getElementById('a-tips').innerHTML=tips.map(function(x){return'<div class="tip"><div class="tip-icon" style="background:'+x.cl+'">'+x.i+'</div>'+x.t+'</div>'}).join('');
 }
 
-function scoreHook(line) {
-    var s = 0;
-    if (/\d/.test(line)) s++;
-    if (/[?]/.test(line)) s++;
-    if (line.length < 80) s++;
-    if (/^(I |Here|Most|Stop|The |What|Why|How|Don|This|Every|Nobody|Unpopular|Hot take|Controversial|Truth|Forget|Imagine)/i.test(line)) s++;
-    if (/\b(secret|mistake|myth|truth|lesson|hack|tip|never|always|wrong|surprising|shocking)\b/i.test(line)) s++;
-    return Math.min(s, 4);
-}
-
-function genTips(text, chars, words, avgSent, flesch, paras) {
-    var tips = [];
-    var hasBreaks = text.indexOf('\n\n') !== -1;
-    var hasCTA = /\b(comment|share|follow|link|DM|reply|thoughts|agree|disagree)\b/i.test(text.slice(-200));
-    var hashCount = (text.match(/#\w+/g) || []).length;
-    if (words === 0) { tips.push({i:'\u270F',c:'rgba(74,144,217,.15)',t:'Start writing to get personalized tips.'}); }
-    else {
-        if (chars > 1000 && chars <= 1300) tips.push({i:'\u2705',c:'rgba(46,204,113,.12)',t:'Great length! 1,000\u20131,300 chars is the engagement sweet spot.'});
-        else if (chars < 300 && words > 10) tips.push({i:'\u2197',c:'rgba(74,144,217,.15)',t:'Consider expanding. Posts under 300 chars get less reach unless very punchy.'});
-        else if (chars > 2500) tips.push({i:'\u2702',c:'rgba(201,162,39,.12)',t:'Long post! Make sure the first 3 lines are compelling \u2014 that\'s all people see before "see more."'});
-        if (!hasBreaks && words > 50) tips.push({i:'\u00B6',c:'rgba(74,144,217,.15)',t:'Add line breaks between paragraphs. Wall-of-text posts get scrolled past.'});
-        if (avgSent > 25) tips.push({i:'\u2702',c:'rgba(201,162,39,.12)',t:'Avg sentence is '+avgSent.toFixed(0)+' words. Keep under 20 for LinkedIn.'});
-        if (flesch < 40 && words > 20) tips.push({i:'\u{1F4D6}',c:'rgba(231,76,60,.12)',t:'Readability is low. Use simpler words and shorter sentences.'});
-        if (!hasCTA && words > 50) tips.push({i:'\u{1F4AC}',c:'rgba(74,144,217,.15)',t:'No CTA detected. End with a question or invitation to comment.'});
-        if (hashCount === 0 && words > 30) tips.push({i:'#',c:'rgba(201,162,39,.12)',t:'Add 3\u20135 relevant hashtags at the end for discoverability.'});
-        if (hashCount > 5) tips.push({i:'#',c:'rgba(231,76,60,.12)',t:hashCount+' hashtags is too many. LinkedIn recommends 3\u20135 max.'});
-        if (tips.length === 0) tips.push({i:'\u2705',c:'rgba(46,204,113,.12)',t:'Looking solid! Your post checks the major boxes.'});
-    }
-    document.getElementById('a-tips').innerHTML = tips.map(function(t){ return '<div class="tip"><div class="tip-icon" style="background:'+t.c+'">'+t.i+'</div>'+t.t+'</div>'; }).join('');
-}
-
-function countSyll(word) {
-    word = word.toLowerCase().replace(/[^a-z]/g,'');
-    if (word.length <= 2) return 1;
-    word = word.replace(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/,'');
-    word = word.replace(/^y/,'');
-    var m = word.match(/[aeiouy]{1,2}/g);
-    return m ? m.length : 1;
-}
-
-// ══════════════════════════════════════════════════════════════
+// ============================================================
 // HOOK GENERATOR
-// ══════════════════════════════════════════════════════════════
-async function generateHooks() {
-    var topic = document.getElementById('h-topic').value.trim();
-    if (!topic) { document.getElementById('h-status').textContent = 'Please describe your post topic first.'; return; }
-    var tone = document.getElementById('h-tone').value;
-    var count = document.getElementById('h-count').value;
-    var apiKey = document.getElementById('h-api-key').value.trim();
-    var btn = document.getElementById('h-gen-btn');
-    var status = document.getElementById('h-status');
+// ============================================================
+function escHtml(t){return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;')}
+function copyHook(el,text){navigator.clipboard.writeText(text.replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&#39;/g,"'").replace(/&quot;/g,'"'));var cp=el.querySelector('.hook-copy');cp.textContent='Copied!';cp.style.color='var(--success)';setTimeout(function(){cp.textContent='Click to copy';cp.style.color='var(--gold-primary)'},1500)}
+function renderHooks(hooks){document.getElementById('h-results').innerHTML=hooks.map(function(h,i){return'<div class="hook-result" onclick="copyHook(this,\''+escHtml(h).replace(/'/g,"\\'")+'\')"><div class="hook-num">'+(i+1)+'</div><div class="hook-text">'+escHtml(h)+'</div><div class="hook-copy">Click to copy</div></div>'}).join('')}
 
-    btn.disabled = true; btn.textContent = 'Generating...'; status.textContent = 'Calling Claude API...';
-
-    var systemPrompt = 'You are an expert LinkedIn content strategist. Generate exactly ' + count + ' LinkedIn opening hooks (the first 1-2 lines of a post) based on the user\'s topic. Tone: ' + tone + '. Each hook should be designed to stop the scroll and maximize "see more" clicks. Return ONLY a JSON array of strings, no other text. Example: ["Hook 1", "Hook 2"]';
-
-    try {
-        var response = await fetch('https://api.anthropic.com/v1/messages', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'x-api-key': apiKey || '',
-                'anthropic-version': '2023-06-01',
-                'anthropic-dangerous-direct-browser-access': 'true'
-            },
-            body: JSON.stringify({
-                model: 'claude-sonnet-4-5-20250514',
-                max_tokens: 1000,
-                system: systemPrompt,
-                messages: [{ role: 'user', content: 'Topic/context: ' + topic }]
-            })
-        });
-        var data = await response.json();
-        if (data.error) throw new Error(data.error.message || 'API error');
-        var text = data.content[0].text;
-        var hooks = JSON.parse(text.replace(/```json|```/g, '').trim());
-        renderHooks(hooks);
-        status.textContent = 'Generated ' + hooks.length + ' hooks';
-    } catch(err) {
-        status.textContent = 'Error: ' + err.message;
-        // Fallback: generate locally
-        if (!apiKey) {
-            status.textContent = 'No API key \u2014 generating smart templates instead...';
-            var fallback = generateLocalHooks(topic, tone, parseInt(count));
-            renderHooks(fallback);
-            status.textContent = 'Generated ' + fallback.length + ' template hooks (add API key for AI-powered hooks)';
-        }
-    }
-    btn.disabled = false; btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg> Generate Hooks';
-}
-
-function generateLocalHooks(topic, tone, count) {
-    var words = topic.split(/\s+/).slice(0, 6).join(' ');
-    var templates = {
-        professional: [
-            'Most organizations get ' + words + ' completely wrong. Here\'s what the data actually shows.',
-            'I\'ve spent 25 years studying how people adopt new tools. The #1 mistake with ' + words + '?',
-            'After working with dozens of teams on ' + words + ', one pattern keeps emerging.',
-            'The difference between organizations that succeed with ' + words + ' and those that fail comes down to one thing.',
-            'Here\'s what nobody tells you about ' + words + ':',
-            'I tracked the results for 3 months. ' + words + ' changed everything.',
-            'Stop overthinking ' + words + '. Start here instead.',
-            'The ROI of ' + words + ' isn\'t what you think it is. It\'s bigger.'
-        ],
-        bold: [
-            'Unpopular opinion: ' + words + ' is being done backwards by 90% of companies.',
-            'Hot take: ' + words + ' doesn\'t fail because of the technology. It fails because of the training.',
-            'Everyone is talking about ' + words + '. Almost everyone is wrong.',
-            'I\'m going to say what nobody in the ' + words + ' space wants to admit.',
-            'Controversial: ' + words + ' workshops are a waste of money. Here\'s what works instead.',
-            'The ' + words + ' industry has a dirty secret.',
-            'Stop. Before you invest in ' + words + ', read this.',
-            'I lost a client because of ' + words + '. Best thing that ever happened to my business.'
-        ],
-        storytelling: [
-            'Last Tuesday, a teacher walked into my training session and said: "I\'m terrified of ' + words + '."',
-            'Three months ago, I made a bet on ' + words + '. Here\'s what happened.',
-            'The email came at 11pm: "Your ' + words + ' training just saved my job."',
-            '"This is impossible." That\'s what they said about ' + words + ' before we started.',
-            'I was a history professor. Then ' + words + ' changed the trajectory of my career.',
-            'Picture this: 30 educators in a room. Zero confidence in ' + words + '. What I did next surprised everyone.',
-            'The moment I knew ' + words + ' was going to change everything was a Tuesday afternoon in Maryville, Missouri.',
-            'She was the most resistant person in the room. By Friday, she was the biggest advocate for ' + words + '.'
-        ],
-        'data-driven': [
-            '90% reported productivity gains. 100% adoption. 0 holdouts. Here\'s how ' + words + ' delivered these numbers.',
-            'We tracked ' + words + ' outcomes for 3 months. The results: +148% training confidence, +63% productivity belief.',
-            'The data is clear: ' + words + ' works. But only if you do this one thing differently.',
-            '55% \u2192 90% \u2192 83%. These three numbers tell the entire story of ' + words + '.',
-            'I measured ' + words + ' across 8 dimensions over 3 months. Here\'s what the data says.',
-            'Most ' + words + ' programs can\'t show you a single metric. I can show you five.',
-            'The #1 predictor of ' + words + ' success isn\'t what you\'d expect. (It\'s not budget.)',
-            'After analyzing 30+ pre/post assessments on ' + words + ', one finding stands out.'
-        ],
-        vulnerable: [
-            'I almost gave up on ' + words + '. Here\'s what I wish someone had told me.',
-            'I\'m going to be honest about ' + words + ': I didn\'t have it all figured out.',
-            'The hardest lesson I\'ve learned about ' + words + ' had nothing to do with technology.',
-            'I lost my first client. It taught me everything about ' + words + '.',
-            'Here\'s what I got wrong about ' + words + ' (and what it cost me).',
-            'Being a solopreneur in ' + words + ' is lonely. But last week something shifted.',
-            'I\'m a history professor who pivoted into ' + words + '. People thought I was crazy.',
-            'Truth: I\'m still figuring out ' + words + '. But here\'s what I know for sure after a year.'
-        ]
+function localHooks(topic,tone,count){
+    var w=topic.split(/\s+/).slice(0,6).join(' ');
+    var T={
+        professional:['Most organizations get '+w+' completely wrong. Here\'s what the data shows.','I\'ve spent 25 years studying how people adopt new tools. The #1 mistake with '+w+'?','After working with dozens of teams on '+w+', one pattern keeps emerging.','The difference between success and failure with '+w+' comes down to one thing.','Here\'s what nobody tells you about '+w+':','I tracked the results for 3 months. '+w+' changed everything.','Stop overthinking '+w+'. Start here instead.','The ROI of '+w+' isn\'t what you think. It\'s bigger.'],
+        bold:['Unpopular opinion: '+w+' is being done backwards by 90% of companies.','Hot take: '+w+' doesn\'t fail because of the technology. It fails because of the training.','Everyone is talking about '+w+'. Almost everyone is wrong.','I\'m going to say what nobody in the '+w+' space wants to admit.','Controversial: '+w+' workshops are a waste of money. Here\'s what works instead.','The '+w+' industry has a dirty secret.','Stop. Before you invest in '+w+', read this.','I lost a client because of '+w+'. Best thing that ever happened.'],
+        storytelling:['Last Tuesday, a teacher walked into my session and said: "I\'m terrified of '+w+'."','Three months ago, I made a bet on '+w+'. Here\'s what happened.','"This is impossible." That\'s what they said about '+w+' before we started.','I was a history professor. Then '+w+' changed my career trajectory.','She was the most resistant person in the room. By Friday, she was the biggest advocate for '+w+'.','The moment I knew '+w+' was going to change everything was a quiet afternoon in Missouri.','The email came at 11pm: "Your '+w+' training just saved my job."','Picture this: 30 educators in a room. Zero confidence in '+w+'. What happened next surprised everyone.'],
+        'data-driven':['90% reported productivity gains. 100% adoption. 0 holdouts. Here\'s how '+w+' delivered.','We tracked '+w+' outcomes for 3 months. The results: +148% confidence, +63% productivity belief.','The data is clear: '+w+' works. But only if you do this one thing differently.','55% → 90% → 83%. Three numbers that tell the entire story of '+w+'.','I measured '+w+' across 8 dimensions over 3 months. Here\'s what the data says.','Most '+w+' programs can\'t show you a single metric. I can show you five.','After analyzing 30+ pre/post assessments on '+w+', one finding stands out.','The #1 predictor of '+w+' success isn\'t what you\'d expect. (It\'s not budget.)'],
+        vulnerable:['I almost gave up on '+w+'. Here\'s what I wish someone had told me.','I\'m going to be honest about '+w+': I didn\'t have it all figured out.','The hardest lesson about '+w+' had nothing to do with technology.','I lost my first client. It taught me everything about '+w+'.','Here\'s what I got wrong about '+w+' (and what it cost me).','Being a solopreneur in '+w+' is lonely. But last week something shifted.','I\'m a history professor who pivoted into '+w+'. People thought I was crazy.','Truth: I\'m still figuring out '+w+'. But here\'s what I know for sure.']
     };
-    var pool = templates[tone] || templates.professional;
-    var shuffled = pool.sort(function(){ return 0.5 - Math.random(); });
-    return shuffled.slice(0, count);
+    var pool=T[tone]||T.professional;
+    return pool.sort(function(){return .5-Math.random()}).slice(0,count);
 }
 
-function renderHooks(hooks) {
-    var el = document.getElementById('h-results');
-    el.innerHTML = hooks.map(function(h, i){
-        return '<div class="hook-result" onclick="copyHook(this,\''+escapeHtml(h)+'\')"><div class="hook-num">'+(i+1)+'</div><div class="hook-text">'+escapeHtml(h)+'</div><div class="hook-copy">Click to copy</div></div>';
-    }).join('');
+async function generateHooks(){
+    var topic=document.getElementById('h-topic').value.trim();
+    if(!topic){document.getElementById('h-status').textContent='Describe your topic first.';return}
+    var tone=document.getElementById('h-tone').value,count=document.getElementById('h-count').value,key=document.getElementById('h-api-key').value.trim();
+    var btn=document.getElementById('h-gen-btn'),st=document.getElementById('h-status');
+    btn.disabled=true;btn.textContent='Generating...';st.textContent='';
+    if(key){
+        st.textContent='Calling Claude API...';
+        try{
+            var r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-5-20250514',max_tokens:1000,system:'You are an expert LinkedIn content strategist. Generate exactly '+count+' LinkedIn opening hooks based on the user\'s topic. Tone: '+tone+'. Each hook should stop the scroll and maximize "see more" clicks. Return ONLY a JSON array of strings.',messages:[{role:'user',content:'Topic: '+topic}]})});
+            var d=await r.json();if(d.error)throw new Error(d.error.message);
+            var hooks=JSON.parse(d.content[0].text.replace(/```json|```/g,'').trim());
+            renderHooks(hooks);st.textContent='Generated '+hooks.length+' AI-powered hooks';
+        }catch(e){st.textContent='API error — falling back to templates';var fb=localHooks(topic,tone,parseInt(count));renderHooks(fb)}
+    }else{var hooks=localHooks(topic,tone,parseInt(count));renderHooks(hooks);st.textContent='Generated '+hooks.length+' hooks (add API key for AI-powered hooks)'}
+    btn.disabled=false;btn.innerHTML='⚡ Generate Hooks';
 }
 
-function copyHook(el, text) {
-    navigator.clipboard.writeText(text.replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&#39;/g,"'").replace(/&quot;/g,'"'));
-    var cp = el.querySelector('.hook-copy');
-    cp.textContent = 'Copied!'; cp.style.color = 'var(--success)';
-    setTimeout(function(){ cp.textContent = 'Click to copy'; cp.style.color = 'var(--gold-primary)'; }, 1500);
-}
-
-function escapeHtml(t) { return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
-
-// ══════════════════════════════════════════════════════════════
+// ============================================================
 // HASHTAG ANALYZER
-// ══════════════════════════════════════════════════════════════
-var selectedHashtags = [];
-var hashtagDB = {
-    ai: [{tag:'#AI',size:'Broad',followers:'35M+'},{tag:'#ArtificialIntelligence',size:'Broad',followers:'18M+'},{tag:'#AITraining',size:'Niche',followers:'120K'},{tag:'#GenerativeAI',size:'Mid',followers:'2.1M'},{tag:'#AIAdoption',size:'Niche',followers:'45K'},{tag:'#AIStrategy',size:'Niche',followers:'85K'}],
-    education: [{tag:'#EdTech',size:'Mid',followers:'3.2M'},{tag:'#Education',size:'Broad',followers:'22M+'},{tag:'#HigherEd',size:'Mid',followers:'1.8M'},{tag:'#ProfessionalDevelopment',size:'Mid',followers:'4.5M'},{tag:'#Teaching',size:'Mid',followers:'6.1M'},{tag:'#OnlineLearning',size:'Mid',followers:'2.3M'}],
-    leadership: [{tag:'#Leadership',size:'Broad',followers:'42M+'},{tag:'#Management',size:'Broad',followers:'28M+'},{tag:'#ExecutiveCoaching',size:'Niche',followers:'580K'},{tag:'#ChangeManagement',size:'Niche',followers:'890K'},{tag:'#FutureOfWork',size:'Mid',followers:'3.8M'}],
-    business: [{tag:'#Business',size:'Broad',followers:'45M+'},{tag:'#Entrepreneurship',size:'Broad',followers:'25M+'},{tag:'#SmallBusiness',size:'Mid',followers:'8.2M'},{tag:'#Consulting',size:'Mid',followers:'5.1M'},{tag:'#Innovation',size:'Mid',followers:'12M+'},{tag:'#ROI',size:'Niche',followers:'340K'}],
-    productivity: [{tag:'#Productivity',size:'Broad',followers:'15M+'},{tag:'#WorkSmarter',size:'Niche',followers:'280K'},{tag:'#Efficiency',size:'Niche',followers:'420K'},{tag:'#Automation',size:'Mid',followers:'3.5M'}],
-    training: [{tag:'#Training',size:'Mid',followers:'7.8M'},{tag:'#LearningAndDevelopment',size:'Mid',followers:'2.9M'},{tag:'#CorporateTraining',size:'Niche',followers:'650K'},{tag:'#WorkshopDesign',size:'Niche',followers:'45K'},{tag:'#Upskilling',size:'Niche',followers:'380K'}],
-    data: [{tag:'#DataDriven',size:'Niche',followers:'520K'},{tag:'#Analytics',size:'Mid',followers:'4.2M'},{tag:'#DataScience',size:'Mid',followers:'6.8M'}],
-    tech: [{tag:'#Technology',size:'Broad',followers:'38M+'},{tag:'#DigitalTransformation',size:'Mid',followers:'5.4M'},{tag:'#TechTrends',size:'Niche',followers:'890K'}]
+// ============================================================
+var htSel=[];
+var htDB={
+    ai:[{tag:'#AI',size:'Broad',f:'35M+'},{tag:'#ArtificialIntelligence',size:'Broad',f:'18M+'},{tag:'#AITraining',size:'Niche',f:'120K'},{tag:'#GenerativeAI',size:'Mid',f:'2.1M'},{tag:'#AIAdoption',size:'Niche',f:'45K'},{tag:'#AIStrategy',size:'Niche',f:'85K'},{tag:'#ChatGPT',size:'Mid',f:'4.2M'},{tag:'#MachineLearning',size:'Mid',f:'8.5M'}],
+    education:[{tag:'#EdTech',size:'Mid',f:'3.2M'},{tag:'#Education',size:'Broad',f:'22M+'},{tag:'#HigherEd',size:'Mid',f:'1.8M'},{tag:'#ProfessionalDevelopment',size:'Mid',f:'4.5M'},{tag:'#Teaching',size:'Mid',f:'6.1M'},{tag:'#OnlineLearning',size:'Mid',f:'2.3M'}],
+    leadership:[{tag:'#Leadership',size:'Broad',f:'42M+'},{tag:'#Management',size:'Broad',f:'28M+'},{tag:'#ExecutiveCoaching',size:'Niche',f:'580K'},{tag:'#ChangeManagement',size:'Niche',f:'890K'},{tag:'#FutureOfWork',size:'Mid',f:'3.8M'}],
+    business:[{tag:'#Business',size:'Broad',f:'45M+'},{tag:'#Entrepreneurship',size:'Broad',f:'25M+'},{tag:'#SmallBusiness',size:'Mid',f:'8.2M'},{tag:'#Consulting',size:'Mid',f:'5.1M'},{tag:'#Innovation',size:'Mid',f:'12M+'},{tag:'#ROI',size:'Niche',f:'340K'}],
+    productivity:[{tag:'#Productivity',size:'Broad',f:'15M+'},{tag:'#WorkSmarter',size:'Niche',f:'280K'},{tag:'#Efficiency',size:'Niche',f:'420K'},{tag:'#Automation',size:'Mid',f:'3.5M'}],
+    training:[{tag:'#Training',size:'Mid',f:'7.8M'},{tag:'#LearningAndDevelopment',size:'Mid',f:'2.9M'},{tag:'#CorporateTraining',size:'Niche',f:'650K'},{tag:'#Upskilling',size:'Niche',f:'380K'}],
+    data:[{tag:'#DataDriven',size:'Niche',f:'520K'},{tag:'#Analytics',size:'Mid',f:'4.2M'},{tag:'#DataScience',size:'Mid',f:'6.8M'}],
+    tech:[{tag:'#Technology',size:'Broad',f:'38M+'},{tag:'#DigitalTransformation',size:'Mid',f:'5.4M'},{tag:'#TechTrends',size:'Niche',f:'890K'}]
 };
+var htCats={ai:/\b(ai|artificial intelligence|machine learning|chatgpt|claude|gpt|llm|generative|prompt|model)\b/,education:/\b(education|teach|school|student|professor|university|classroom|curriculum|faculty|course|academic)\b/,leadership:/\b(leader|leadership|executive|ceo|manage|c-suite|director|strategy|vision)\b/,business:/\b(business|company|organization|firm|enterprise|startup|revenue|profit|client|customer|roi|consult)\b/,productivity:/\b(productiv|efficien|workflow|automat|time|faster|streamline|optimize)\b/,training:/\b(train|workshop|professional development|onboard|skill|learn|upskill|develop)\b/,data:/\b(data|metric|measure|assessment|survey|longitudinal|analytics|evidence|research)\b/,tech:/\b(tech|digital|software|tool|platform|app|cloud|transform)\b/};
 
-function analyzeHashtags() {
-    var text = document.getElementById('ht-input').value.toLowerCase();
-    if (text.trim().length < 10) { document.getElementById('ht-results-card').style.display = 'none'; return; }
-    document.getElementById('ht-results-card').style.display = '';
-
-    var matched = [];
-    var categories = {
-        ai: /\b(ai|artificial intelligence|machine learning|chatgpt|claude|gpt|llm|generative|prompt|model)\b/,
-        education: /\b(education|teach|school|student|professor|university|classroom|curriculum|faculty|course|academic)\b/,
-        leadership: /\b(leader|leadership|executive|ceo|manage|c-suite|director|strategy|vision)\b/,
-        business: /\b(business|company|organization|firm|enterprise|startup|revenue|profit|client|customer|roi|consult)\b/,
-        productivity: /\b(productiv|efficien|workflow|automat|time|faster|streamline|optimize)\b/,
-        training: /\b(train|workshop|professional development|onboard|skill|learn|upskill|develop)\b/,
-        data: /\b(data|metric|measure|assessment|survey|longitudinal|analytics|evidence|research)\b/,
-        tech: /\b(tech|digital|software|tool|platform|app|cloud|transform)\b/
-    };
-
-    for (var cat in categories) {
-        if (categories[cat].test(text)) {
-            hashtagDB[cat].forEach(function(h) {
-                if (!matched.find(function(m){return m.tag===h.tag})) matched.push(h);
-            });
-        }
-    }
-
-    if (matched.length === 0) matched = hashtagDB.ai.concat(hashtagDB.business).slice(0, 6);
-
-    var grid = document.getElementById('ht-grid');
-    grid.innerHTML = matched.map(function(h){
-        var sel = selectedHashtags.indexOf(h.tag) !== -1;
-        return '<div class="hashtag-card'+(sel?' selected':'')+'" onclick="toggleHashtag(\''+h.tag+'\',this)"><div class="ht-name">'+h.tag+'</div><div class="ht-meta">'+h.size+' \u00B7 '+h.followers+' followers</div></div>';
-    }).join('');
-    updateSelectedDisplay();
+function analyzeHashtags(){
+    var t=document.getElementById('ht-input').value.toLowerCase();
+    if(t.trim().length<10){document.getElementById('ht-results-card').style.display='none';return}
+    document.getElementById('ht-results-card').style.display='';
+    var matched=[];
+    for(var c in htCats){if(htCats[c].test(t)){htDB[c].forEach(function(h){if(!matched.find(function(m){return m.tag===h.tag}))matched.push(h)})}}
+    if(matched.length===0)matched=htDB.ai.concat(htDB.business).slice(0,6);
+    document.getElementById('ht-grid').innerHTML=matched.map(function(h){var s=htSel.indexOf(h.tag)!==-1;return'<div class="hashtag-card'+(s?' selected':'')+'" onclick="toggleHt(\''+h.tag+'\',this)"><div class="ht-name">'+h.tag+'</div><div class="ht-meta">'+h.size+' · '+h.f+' followers</div></div>'}).join('');
+    updateHtSel();
 }
+function toggleHt(tag,el){var i=htSel.indexOf(tag);if(i===-1){if(htSel.length>=5)return;htSel.push(tag);el.classList.add('selected')}else{htSel.splice(i,1);el.classList.remove('selected')}updateHtSel()}
+function updateHtSel(){document.getElementById('ht-cnt').textContent='('+htSel.length+')';var el=document.getElementById('ht-selected');if(htSel.length===0)el.innerHTML='<span style="font-size:12px;color:var(--text-muted)">Click hashtags above to select them</span>';else el.innerHTML=htSel.map(function(t){return'<span class="tag">'+t+'</span>'}).join('')}
+function copyHashtags(){if(!htSel.length)return;navigator.clipboard.writeText(htSel.join(' '));var b=document.getElementById('ht-copy-btn');b.textContent='Copied!';setTimeout(function(){b.textContent='Copy to Clipboard'},1500)}
 
-function toggleHashtag(tag, el) {
-    var idx = selectedHashtags.indexOf(tag);
-    if (idx === -1) { if (selectedHashtags.length >= 5) return; selectedHashtags.push(tag); el.classList.add('selected'); }
-    else { selectedHashtags.splice(idx, 1); el.classList.remove('selected'); }
-    updateSelectedDisplay();
-}
-
-function updateSelectedDisplay() {
-    document.getElementById('ht-count').textContent = '(' + selectedHashtags.length + ')';
-    var el = document.getElementById('ht-selected');
-    if (selectedHashtags.length === 0) { el.innerHTML = '<span style="font-size:12px;color:var(--text-muted)">Click hashtags above to select them</span>'; }
-    else { el.innerHTML = selectedHashtags.map(function(t){ return '<span class="tag gold">'+t+'</span>'; }).join(''); }
-}
-
-function copyHashtags() {
-    if (selectedHashtags.length === 0) return;
-    navigator.clipboard.writeText(selectedHashtags.join(' '));
-    var btn = document.getElementById('ht-copy-btn');
-    btn.textContent = 'Copied!'; setTimeout(function(){ btn.textContent = 'Copy to Clipboard'; }, 1500);
-}
-
-// ══════════════════════════════════════════════════════════════
+// ============================================================
 // POST PREVIEW
-// ══════════════════════════════════════════════════════════════
-function updatePreview() {
-    var text = document.getElementById('p-input').value;
-    var name = document.getElementById('p-name').value || 'Your Name';
-    var headline = document.getElementById('p-headline').value || 'Your Headline';
-    var initials = name.split(' ').map(function(w){return w[0]}).join('').toUpperCase().slice(0,2);
-
-    // Mobile: truncate after ~3 lines (~210 chars)
-    var mobileText = text;
-    var truncated = false;
-    if (text.length > 210) {
-        var cutPoint = text.lastIndexOf(' ', 210);
-        if (cutPoint === -1) cutPoint = 210;
-        mobileText = text.substring(0, cutPoint);
-        truncated = true;
-    }
-
-    // Desktop: truncate after ~5 lines (~450 chars)
-    var desktopText = text;
-    var dTruncated = false;
-    if (text.length > 450) {
-        var dCut = text.lastIndexOf(' ', 450);
-        if (dCut === -1) dCut = 450;
-        desktopText = text.substring(0, dCut);
-        dTruncated = true;
-    }
-
-    ['m','d'].forEach(function(prefix){
-        document.getElementById('p-'+prefix+'-name').textContent = name;
-        document.getElementById('p-'+prefix+'-headline').textContent = headline.length > 45 ? headline.substring(0,45)+'...' : headline;
-        document.getElementById('p-'+prefix+'-avatar').textContent = initials;
-    });
-
-    var mEl = document.getElementById('p-m-text');
-    mEl.textContent = mobileText;
-    mEl.className = 'preview-text' + (truncated ? ' truncated' : '');
-
-    var dEl = document.getElementById('p-d-text');
-    dEl.textContent = desktopText;
-    dEl.className = 'preview-text' + (dTruncated ? ' truncated' : '');
+// ============================================================
+function updatePreview(){
+    var t=document.getElementById('p-input').value;
+    var name=document.getElementById('p-name').value||'Your Name';
+    var headline=document.getElementById('p-headline').value||'Your Headline';
+    var initials=name.split(' ').map(function(w){return w[0]}).join('').toUpperCase().slice(0,2);
+    document.getElementById('p-chars').textContent=t.length;
+    var mText=t,mTrunc=false;if(t.length>210){var cut=t.lastIndexOf(' ',210);if(cut===-1)cut=210;mText=t.substring(0,cut);mTrunc=true}
+    var dText=t,dTrunc=false;if(t.length>450){var dCut=t.lastIndexOf(' ',450);if(dCut===-1)dCut=450;dText=t.substring(0,dCut);dTrunc=true}
+    ['m','d'].forEach(function(p){document.getElementById('p'+p+'-name').textContent=name;document.getElementById('p'+p+'-headline').textContent=headline.length>45?headline.substring(0,45)+'...':headline;document.getElementById('p'+p+'-avatar').textContent=initials});
+    var mEl=document.getElementById('pm-text');mEl.textContent=mText;mEl.className='preview-text'+(mTrunc?' truncated':'');
+    var dEl=document.getElementById('pd-text');dEl.textContent=dText;dEl.className='preview-text'+(dTrunc?' truncated':'');
+    var mN=document.getElementById('pm-note'),dN=document.getElementById('pd-note');
+    if(t.length===0){mN.innerHTML='';dN.innerHTML=''}
+    else if(t.length<=210){mN.innerHTML='<strong style="color:var(--gold-light)">Full post visible</strong> — no "see more" on mobile.';dN.innerHTML='<strong style="color:var(--gold-light)">Full post visible</strong> — no truncation on desktop.'}
+    else{mN.innerHTML='<strong style="color:var(--gold-light)">Truncated at ~'+mText.length+' chars</strong> on mobile. Remaining: <strong>'+(t.length-mText.length)+'</strong> chars behind "see more".';if(t.length<=450)dN.innerHTML='<strong style="color:var(--gold-light)">Full post visible</strong> on desktop.';else dN.innerHTML='<strong style="color:var(--gold-light)">Truncated at ~'+dText.length+' chars</strong> on desktop. Remaining: <strong>'+(t.length-dText.length)+'</strong> chars behind "see more".'}
 }
-</script>
+updatePreview();
 
-<script>
+// ============================================================
+// SERVICE WORKER
+// ============================================================
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js')
-      .then(r => console.log('SW registered:', r.scope))
-      .catch(e => console.log('SW failed:', e));
-  });
+  window.addEventListener('load', function(){ navigator.serviceWorker.register('sw.js').then(function(r){ console.log('SW registered:', r.scope) }).catch(function(e){ console.log('SW failed:', e) }) });
 }
-let deferredPrompt;
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();
-  deferredPrompt = e;
-  const footer = document.querySelector('.sidebar-footer');
+var deferredPrompt;
+window.addEventListener('beforeinstallprompt', function(e) {
+  e.preventDefault(); deferredPrompt = e;
+  var footer = document.querySelector('.sidebar-footer');
   if (footer && !document.querySelector('.install-btn')) {
-    const btn = document.createElement('button');
-    btn.className = 'install-btn';
-    btn.textContent = '\u2B07 Install App';
-    btn.style.cssText = 'display:block;width:100%;margin-top:8px;padding:8px;border:1px solid rgba(201,162,39,.3);border-radius:8px;background:rgba(201,162,39,.08);color:#e8c84a;font-size:12px;font-weight:600;cursor:pointer;font-family:var(--font-main);transition:all .2s';
-    btn.onmouseover = () => btn.style.background = 'rgba(201,162,39,.15)';
-    btn.onmouseout = () => btn.style.background = 'rgba(201,162,39,.08)';
-    btn.onclick = async () => {
-      if (deferredPrompt) {
-        deferredPrompt.prompt();
-        const result = await deferredPrompt.userChoice;
-        if (result.outcome === 'accepted') btn.remove();
-        deferredPrompt = null;
-      }
-    };
+    var btn = document.createElement('button');
+    btn.className = 'help-btn'; btn.textContent = '⬇ Install ScrollStop';
+    btn.style.borderColor = 'rgba(201,162,39,.3)'; btn.style.color = '#e8c84a';
+    btn.onclick = async function() { if (deferredPrompt) { deferredPrompt.prompt(); var result = await deferredPrompt.userChoice; if (result.outcome === 'accepted') btn.remove(); deferredPrompt = null; } };
     footer.appendChild(btn);
   }
 });
