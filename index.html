@@ -132,7 +132,7 @@ textarea{resize:vertical;min-height:200px}
 .preview-meta .preview-name{font-size:14px;font-weight:600;color:#000}
 .preview-meta .preview-headline{font-size:12px;color:#666}.preview-meta .preview-time{font-size:11px;color:#999}
 .preview-body{padding:0 16px 14px}.preview-text{font-size:14px;line-height:1.5;color:#000;white-space:pre-wrap;word-wrap:break-word;padding-top:12px}
-.preview-text.truncated::after{content:'...see more';color:#0a66c2;font-weight:600;cursor:pointer}
+.preview-text.truncated::after{content:var(--see-more-text,'...see more');color:#0a66c2;font-weight:600;cursor:pointer}
 .preview-actions{padding:8px 16px;border-top:1px solid #e8e8e8;display:flex;justify-content:space-around}
 .preview-action{font-size:12px;color:#666;font-weight:600;padding:8px;display:flex;align-items:center;gap:4px}
 
@@ -156,12 +156,25 @@ textarea{resize:vertical;min-height:200px}
 .help-footer{margin-top:24px;padding-top:16px;border-top:1px solid var(--border);text-align:center;font-size:12px;color:var(--text-muted)}
 .help-footer a{color:var(--gold-primary);text-decoration:none}
 
+/* PLATFORM SELECTOR */
+.platform-selector{padding:12px 8px;border-bottom:1px solid var(--border)}
+.platform-selector .card-label{padding:0 4px}
+.platform-pills{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}
+.platform-pill{display:flex;align-items:center;gap:5px;padding:6px 10px;border-radius:100px;border:1px solid var(--border);background:transparent;color:var(--text-secondary);font-size:11px;font-weight:600;cursor:pointer;font-family:var(--font-main);transition:all var(--transition);white-space:nowrap}
+.platform-pill:hover{border-color:var(--blue-mid);color:var(--text-primary);background:var(--bg-hover)}
+.platform-pill.active{border-color:var(--gold-primary);background:rgba(201,162,39,.1);color:var(--gold-light)}
+.platform-pill .plt-icon{font-size:13px;line-height:1}
+.platform-indicator{display:flex;align-items:center;gap:6px;padding:6px 12px;background:rgba(201,162,39,.08);border-radius:var(--radius);font-size:11px;color:var(--gold-light);font-weight:600;margin:0 8px 4px}
+.platform-indicator .plt-icon{font-size:14px}
+
 /* MOBILE */
-@media(max-width:768px){#sidebar{display:none}.mobile-header{display:flex !important}.layout-main{grid-template-columns:1fr !important}}
+@media(max-width:768px){#sidebar{display:none}.mobile-header{display:flex !important}.layout-main{grid-template-columns:1fr !important}.mobile-platform{display:flex !important}}
 .mobile-header{display:none;padding:12px 16px;background:var(--bg-dark);border-bottom:1px solid var(--border);align-items:center;gap:12px}
 .mobile-header .logo-sm{width:32px;height:32px;border-radius:6px;background:linear-gradient(135deg,var(--gold-primary),var(--gold-light));display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:var(--bg-deepest)}
 .mobile-header select{background:var(--bg-input);border:1px solid var(--border);color:var(--text-primary);border-radius:var(--radius);padding:6px 10px;font-size:13px;font-family:var(--font-main);flex:1}
 .mobile-header button{background:none;border:1px solid var(--border);border-radius:var(--radius);color:var(--text-secondary);padding:6px 10px;font-size:14px;cursor:pointer}
+.mobile-platform{display:none;padding:8px 16px;background:var(--bg-dark);border-bottom:1px solid var(--border);gap:6px;overflow-x:auto}
+.mobile-platform .platform-pill{flex-shrink:0}
 </style>
 </head>
 <body>
@@ -177,6 +190,7 @@ textarea{resize:vertical;min-height:200px}
         <div class="splash-tool">⚡ Hook Generator</div>
         <div class="splash-tool"># Hashtag Analyzer</div>
         <div class="splash-tool">📱 Post Preview</div>
+        <div class="splash-tool">🌐 Multi-Platform</div>
     </div>
     <div class="splash-loader"><div class="splash-loader-bar" id="splash-bar"></div></div>
 </div>
@@ -186,15 +200,15 @@ textarea{resize:vertical;min-height:200px}
     <div class="help-panel" style="position:relative">
         <button class="help-close" onclick="closeHelp()">✕</button>
         <h2>📖 How to Use <span>ScrollStop</span></h2>
-        <div class="help-sub">Five free tools to optimize your social content before you post.</div>
+        <div class="help-sub">Multi-platform content optimization tools — before you hit publish.</div>
 
         <div class="help-section">
             <h3>✦ Text Formatter</h3>
-            <p>Type or paste text, select a style (bold, italic, monospace, etc.), and get Unicode-formatted text you can paste directly into LinkedIn, Twitter/X, or any platform. LinkedIn doesn't support native formatting — these Unicode characters render as styled text everywhere.</p>
+            <p>Type or paste text, select a style (bold, italic, monospace, etc.), and get Unicode-formatted text you can paste into any platform. Most platforms don't support native text formatting — these Unicode characters render as styled text everywhere.</p>
         </div>
         <div class="help-section">
             <h3>📊 Post Analyzer</h3>
-            <p>Paste your post to get real-time character count (with LinkedIn's 3,000 limit), Flesch-Kincaid readability score, hook strength analysis, and smart optimization tips. The readability ring turns green when your writing hits LinkedIn's ideal 6th–8th grade level.</p>
+            <p>Paste your post to get real-time character count (limits adjust per platform), Flesch-Kincaid readability score, hook strength analysis, and smart optimization tips. Select your target platform from the sidebar — all limits, tips, and advice adapt automatically.</p>
         </div>
         <div class="help-section">
             <h3>⚡ Hook Generator</h3>
@@ -202,11 +216,15 @@ textarea{resize:vertical;min-height:200px}
         </div>
         <div class="help-section">
             <h3># Hashtag Analyzer</h3>
-            <p>Paste your post and the analyzer detects your topics, then suggests relevant hashtags with follower counts. Click to select up to 5 (LinkedIn's recommended max), then copy them all at once. Mix broad and niche hashtags for maximum reach.</p>
+            <p>Paste your post and the analyzer detects your topics, then suggests relevant hashtags with follower counts. Maximum hashtags adjust per platform (e.g. 5 for LinkedIn, 30 for Instagram). Mix broad and niche hashtags for maximum reach.</p>
         </div>
         <div class="help-section">
             <h3>📱 Post Preview</h3>
-            <p>See exactly how your post appears on mobile vs. desktop, including where LinkedIn cuts it off with "see more." The mobile fold hits around 210 characters, desktop around 450. Make sure your hook and key message land above the fold.</p>
+            <p>See exactly how your post appears, including where the platform cuts it off. Fold points and truncation behavior adapt to your selected platform. Make sure your hook and key message land above the fold.</p>
+        </div>
+        <div class="help-section">
+            <h3>🌐 Platform Selector</h3>
+            <p>Choose your target platform from the sidebar (or top bar on mobile). All tools automatically adjust — character limits, hashtag counts, preview behavior, optimization tips, and AI prompts adapt to LinkedIn, X, Instagram, Facebook, or Threads.</p>
         </div>
         <div class="help-section">
             <h3>📲 Install as an App</h3>
@@ -229,6 +247,16 @@ textarea{resize:vertical;min-height:200px}
         <div class="sidebar-brand">
             <div class="logo-sm">SS</div>
             <div><div class="brand-text">VAIC <span>ScrollStop</span></div><div class="brand-sub">Content Optimizer</div></div>
+        </div>
+        <div class="platform-selector">
+            <div class="card-label">Platform</div>
+            <div class="platform-pills" id="platform-pills">
+                <button class="platform-pill active" onclick="setPlatform('linkedin',this)"><span class="plt-icon">🔗</span>LinkedIn</button>
+                <button class="platform-pill" onclick="setPlatform('x',this)"><span class="plt-icon">𝕏</span>X</button>
+                <button class="platform-pill" onclick="setPlatform('instagram',this)"><span class="plt-icon">📷</span>Instagram</button>
+                <button class="platform-pill" onclick="setPlatform('facebook',this)"><span class="plt-icon">📘</span>Facebook</button>
+                <button class="platform-pill" onclick="setPlatform('threads',this)"><span class="plt-icon">🧵</span>Threads</button>
+            </div>
         </div>
         <div class="sidebar-nav">
             <div class="nav-section">Tools</div>
@@ -257,6 +285,13 @@ textarea{resize:vertical;min-height:200px}
             <option value="preview">📱 Post Preview</option>
         </select>
         <button onclick="openHelp()">❓</button>
+    </div>
+    <div class="mobile-platform" id="mobile-platform-pills">
+        <button class="platform-pill active" onclick="setPlatform('linkedin',this)"><span class="plt-icon">🔗</span>LinkedIn</button>
+        <button class="platform-pill" onclick="setPlatform('x',this)"><span class="plt-icon">𝕏</span>X</button>
+        <button class="platform-pill" onclick="setPlatform('instagram',this)"><span class="plt-icon">📷</span>IG</button>
+        <button class="platform-pill" onclick="setPlatform('facebook',this)"><span class="plt-icon">📘</span>FB</button>
+        <button class="platform-pill" onclick="setPlatform('threads',this)"><span class="plt-icon">🧵</span>Threads</button>
     </div>
     <div id="main">
 
@@ -327,7 +362,7 @@ Example: This text will become 𝗯𝗼𝗹𝗱, 𝘪𝘵𝘢𝘭𝘪𝘤, or ot
                     <div class="card">
                         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
                             <div class="card-label" style="margin:0">Your Post</div>
-                            <div style="font-family:var(--font-mono);font-size:13px;font-weight:600"><span id="a-live-count" style="color:var(--gold-light)">0</span><span style="color:var(--text-muted)"> / 3,000</span></div>
+                            <div style="font-family:var(--font-mono);font-size:13px;font-weight:600"><span id="a-live-count" style="color:var(--gold-light)">0</span><span style="color:var(--text-muted)"> / <span id="a-max-display">3,000</span></span></div>
                         </div>
                         <textarea id="a-input" placeholder="Start typing your post here...
 
@@ -347,7 +382,7 @@ The best posts open with a hook that stops the scroll. Try a bold stat, a contra
                     <div class="card">
                         <div class="card-label">Character Count</div>
                         <div class="gauge-track"><div class="gauge-fill" id="a-gauge" style="width:0%;background:var(--blue-mid)"></div></div>
-                        <div class="gauge-labels"><span>0</span><span>1,300</span><span>3,000</span></div>
+                        <div class="gauge-labels"><span>0</span><span id="a-gauge-mid">1,300</span><span id="a-gauge-max">3,000</span></div>
                         <div id="a-zone" style="font-size:12px;font-weight:600;margin-top:8px;color:var(--text-muted)">Write something to begin</div>
                         <div class="stat-grid" style="margin-top:14px">
                             <div class="stat-box"><div class="num" id="a-words" style="color:var(--blue-bright)">0</div><div class="lbl">Words</div></div>
@@ -415,7 +450,7 @@ The best posts open with a hook that stops the scroll. Try a bold stat, a contra
                 </div>
                 <div class="card" id="ht-results-card" style="display:none">
                     <div class="card-label">Suggested Hashtags</div>
-                    <div style="font-size:12px;color:var(--text-muted);margin-bottom:14px">Click to select. LinkedIn recommends 3–5 hashtags per post.</div>
+                    <div style="font-size:12px;color:var(--text-muted);margin-bottom:14px" id="ht-advice">Click to select. LinkedIn recommends 3–5 hashtags per post.</div>
                     <div class="hashtag-grid" id="ht-grid"></div>
                     <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border)">
                         <div class="card-label">Selected Hashtags <span id="ht-cnt" style="color:var(--gold-light)">(0)</span></div>
@@ -426,9 +461,9 @@ The best posts open with a hook that stops the scroll. Try a bold stat, a contra
                 <div class="card">
                     <div class="card-label">Hashtag Best Practices</div>
                     <div class="flex-col" style="gap:8px">
-                        <div class="tip"><div class="tip-icon" style="background:rgba(201,162,39,.12)">3-5</div>Use 3–5 hashtags per post. More looks spammy, fewer limits reach.</div>
+                        <div class="tip" id="ht-tip-count"><div class="tip-icon" style="background:rgba(201,162,39,.12)">3-5</div>Use 3–5 hashtags per post. More looks spammy, fewer limits reach.</div>
                         <div class="tip"><div class="tip-icon" style="background:rgba(74,144,217,.15)">#</div>Mix broad (#AI, #Leadership) with niche (#EdTech, #AITraining).</div>
-                        <div class="tip"><div class="tip-icon" style="background:rgba(46,204,113,.12)">↓</div>Place hashtags at the end of your post, not inline.</div>
+                        <div class="tip" id="ht-tip-position"><div class="tip-icon" style="background:rgba(46,204,113,.12)">↓</div>Place hashtags at the end of your post, not inline.</div>
                     </div>
                 </div>
             </div>
@@ -444,15 +479,16 @@ The best posts open with a hook that stops the scroll. Try a bold stat, a contra
             <div class="flex-col" style="max-width:900px">
                 <div class="card">
                     <div class="card-label">Your Post</div>
-                    <textarea id="p-input" style="min-height:120px" placeholder="Paste or type your post to see how it will appear on LinkedIn." oninput="updatePreview()"></textarea>
+                    <textarea id="p-input" style="min-height:120px" placeholder="Paste or type your post to see how it will appear." oninput="updatePreview()"></textarea>
                     <div class="grid-2" style="margin-top:12px">
                         <div><label style="font-size:11px;color:var(--text-muted);font-weight:600;display:block;margin-bottom:4px">Display Name</label><input type="text" id="p-name" value="Dr. Rob Voss" oninput="updatePreview()"></div>
                         <div><label style="font-size:11px;color:var(--text-muted);font-weight:600;display:block;margin-bottom:4px">Headline</label><input type="text" id="p-headline" value="AI Consultant | OpenAI Academy | Associate Professor" oninput="updatePreview()"></div>
                     </div>
                     <div style="display:flex;gap:16px;margin-top:10px;flex-wrap:wrap">
-                        <span style="font-size:11px;color:var(--text-muted);font-family:var(--font-mono);background:rgba(45,95,138,.15);padding:3px 8px;border-radius:4px"><span id="p-chars">0</span> / 3,000 chars</span>
-                        <span style="font-size:11px;color:var(--text-muted);font-family:var(--font-mono);background:rgba(45,95,138,.15);padding:3px 8px;border-radius:4px">Mobile fold: ~210 chars</span>
-                        <span style="font-size:11px;color:var(--text-muted);font-family:var(--font-mono);background:rgba(45,95,138,.15);padding:3px 8px;border-radius:4px">Desktop fold: ~450 chars</span>
+                        <span style="font-size:11px;color:var(--text-muted);font-family:var(--font-mono);background:rgba(45,95,138,.15);padding:3px 8px;border-radius:4px"><span id="p-chars">0</span> / <span id="p-max-chars">3,000</span> chars</span>
+                        <span style="font-size:11px;color:var(--text-muted);font-family:var(--font-mono);background:rgba(45,95,138,.15);padding:3px 8px;border-radius:4px">Mobile fold: ~<span id="p-mobile-fold">210</span> chars</span>
+                        <span style="font-size:11px;color:var(--text-muted);font-family:var(--font-mono);background:rgba(45,95,138,.15);padding:3px 8px;border-radius:4px">Desktop fold: ~<span id="p-desktop-fold">450</span> chars</span>
+                        <span style="font-size:11px;color:var(--gold-light);font-family:var(--font-mono);background:rgba(201,162,39,.1);padding:3px 8px;border-radius:4px" id="p-platform-label">LinkedIn</span>
                     </div>
                 </div>
                 <div class="grid-2">
@@ -465,7 +501,7 @@ The best posts open with a hook that stops the scroll. Try a bold stat, a contra
                         </div>
                         <div id="pm-note" style="font-size:12px;color:var(--text-muted);margin-top:8px;padding:10px;background:rgba(45,95,138,.08);border-radius:var(--radius);line-height:1.5"></div>
                     </div>
-                    <div>
+                    <div id="desktop-preview-col">
                         <div class="card-label" style="margin-bottom:10px;padding-left:4px">🖥 Desktop Preview</div>
                         <div class="preview-frame desktop">
                             <div class="preview-header"><div class="preview-avatar" id="pd-avatar">RV</div><div class="preview-meta"><div class="preview-name" id="pd-name">Dr. Rob Voss</div><div class="preview-headline" id="pd-headline">AI Consultant | OpenAI Academy</div><div class="preview-time">Just now · 🌐</div></div></div>
@@ -484,6 +520,136 @@ The best posts open with a hook that stops the scroll. Try a bold stat, a contra
 </div><!-- end #app -->
 
 <script>
+// ============================================================
+// PLATFORM CONFIGURATION
+// ============================================================
+var PLATFORMS = {
+    linkedin: {
+        id:'linkedin', name:'LinkedIn', icon:'🔗',
+        maxChars:3000, warnChars:2700, sweetMin:1000, sweetMax:1300,
+        maxHashtags:5, hashtagPosition:'end',
+        mobileFold:210, desktopFold:450,
+        readabilityNote:'perfect for LinkedIn',
+        sweetSpotMsg:'Optimal range — LinkedIn\'s sweet spot',
+        overMsg:'Over the {max} character limit!',
+        nearMsg:'Near the limit — tighten where you can',
+        longMsg:'Long-form — make every line earn attention',
+        shortMsg:'Short & punchy — great for engagement',
+        hashtagTip:'Add {n} hashtags at the end for discoverability.',
+        hashtagOverTip:'{count} hashtags is too many. LinkedIn recommends 3–5.',
+        previewName:'LinkedIn',
+        seeMore:'...see more',
+        showDesktopPreview:true,
+        hookSystemPrompt:'You are an expert LinkedIn content strategist. Generate exactly {count} LinkedIn opening hooks based on the user\'s topic. Tone: {tone}. Each hook should stop the scroll and maximize "see more" clicks. Return ONLY a JSON array of strings.'
+    },
+    x: {
+        id:'x', name:'X (Twitter)', icon:'𝕏',
+        maxChars:280, warnChars:260, sweetMin:80, sweetMax:240,
+        maxHashtags:3, hashtagPosition:'inline',
+        mobileFold:280, desktopFold:280,
+        readabilityNote:'ideal for X',
+        sweetSpotMsg:'Solid length for X — concise and punchy',
+        overMsg:'Over X\'s {max}-character limit!',
+        nearMsg:'Almost at the limit — trim if you can',
+        longMsg:'Getting long for X — consider a thread',
+        shortMsg:'Perfect tweet length — short and sharp',
+        hashtagTip:'Add 1–{n} hashtags for discoverability.',
+        hashtagOverTip:'{count} hashtags is too many for X. Keep it to 1–3.',
+        previewName:'X',
+        seeMore:'Show more',
+        showDesktopPreview:false,
+        hookSystemPrompt:'You are an expert X/Twitter content strategist. Generate exactly {count} viral tweet openings based on the user\'s topic. Tone: {tone}. Each should maximize engagement (likes, retweets, replies). Return ONLY a JSON array of strings.'
+    },
+    instagram: {
+        id:'instagram', name:'Instagram', icon:'📷',
+        maxChars:2200, warnChars:2000, sweetMin:150, sweetMax:800,
+        maxHashtags:30, hashtagPosition:'end',
+        mobileFold:125, desktopFold:125,
+        readabilityNote:'great for Instagram captions',
+        sweetSpotMsg:'Solid caption length — enough to tell a story',
+        overMsg:'Over Instagram\'s {max}-character caption limit!',
+        nearMsg:'Near the limit — tighten if needed',
+        longMsg:'Long caption — make the first line count (it\'s all they see)',
+        shortMsg:'Short and visual-first — let the image do the talking',
+        hashtagTip:'Add 5–15 hashtags for reach (up to {n} allowed).',
+        hashtagOverTip:'{count} hashtags — that\'s the max. Consider using fewer targeted ones.',
+        previewName:'Instagram',
+        seeMore:'... more',
+        showDesktopPreview:false,
+        hookSystemPrompt:'You are an expert Instagram content strategist. Generate exactly {count} Instagram caption openers based on the user\'s topic. Tone: {tone}. Each should hook the reader before the "more" cutoff. Return ONLY a JSON array of strings.'
+    },
+    facebook: {
+        id:'facebook', name:'Facebook', icon:'📘',
+        maxChars:63206, warnChars:60000, sweetMin:100, sweetMax:500,
+        maxHashtags:5, hashtagPosition:'end',
+        mobileFold:477, desktopFold:477,
+        readabilityNote:'right for Facebook\'s audience',
+        sweetSpotMsg:'Great length — conversational and shareable',
+        overMsg:'Over Facebook\'s character limit!',
+        nearMsg:'Extremely long — consider splitting into parts',
+        longMsg:'Long post — make the first few lines compelling',
+        shortMsg:'Quick and conversational — Facebook loves this',
+        hashtagTip:'Add 1–{n} hashtags (optional on Facebook).',
+        hashtagOverTip:'{count} hashtags is too many for Facebook. Keep it light.',
+        previewName:'Facebook',
+        seeMore:'... See more',
+        showDesktopPreview:true,
+        hookSystemPrompt:'You are an expert Facebook content strategist. Generate exactly {count} Facebook post openings based on the user\'s topic. Tone: {tone}. Each should encourage comments and shares. Return ONLY a JSON array of strings.'
+    },
+    threads: {
+        id:'threads', name:'Threads', icon:'🧵',
+        maxChars:500, warnChars:480, sweetMin:80, sweetMax:400,
+        maxHashtags:5, hashtagPosition:'inline',
+        mobileFold:160, desktopFold:160,
+        readabilityNote:'right for Threads',
+        sweetSpotMsg:'Perfect Threads length — conversational and concise',
+        overMsg:'Over Threads\' {max}-character limit!',
+        nearMsg:'Almost at the limit — tighten up',
+        longMsg:'Getting long for Threads — keep it tight',
+        shortMsg:'Short and punchy — great for Threads',
+        hashtagTip:'Add 1–{n} hashtags (Threads supports topic tags).',
+        hashtagOverTip:'{count} hashtags — tone it down. 1–3 works best on Threads.',
+        previewName:'Threads',
+        seeMore:'... more',
+        showDesktopPreview:false,
+        hookSystemPrompt:'You are an expert Threads content strategist. Generate exactly {count} Threads post openings based on the user\'s topic. Tone: {tone}. Each should be conversational and drive replies. Return ONLY a JSON array of strings.'
+    }
+};
+
+var currentPlatformId = 'linkedin';
+function plt() { return PLATFORMS[currentPlatformId]; }
+
+function setPlatform(id, clickedBtn) {
+    currentPlatformId = id;
+    // Update all platform pill buttons (sidebar + mobile)
+    document.querySelectorAll('.platform-pill').forEach(function(b){ b.classList.remove('active') });
+    document.querySelectorAll('.platform-pill').forEach(function(b){
+        if(b.onclick && b.onclick.toString().indexOf("'"+id+"'")!==-1) b.classList.add('active');
+    });
+    // Re-run active analyses with new platform rules
+    if(document.getElementById('a-input').value) analyzePost();
+    if(document.getElementById('ht-input').value) analyzeHashtags();
+    updatePreview();
+    updatePlatformIndicators();
+    updateHashtagTips();
+}
+
+function updatePlatformIndicators() {
+    var p = plt();
+    // Update analyzer counter display
+    var counterSpan = document.querySelector('#page-analyzer .page-header .page-desc');
+    if(counterSpan) counterSpan.textContent = 'Character count, readability, hook analysis — optimized for ' + p.name;
+    // Update preview page description
+    var previewDesc = document.querySelector('#page-preview .page-header .page-desc');
+    if(previewDesc) previewDesc.textContent = 'See your post on ' + p.name + ' before publishing';
+    // Update hashtag page description
+    var htDesc = document.querySelector('#page-hashtags .page-header .page-desc');
+    if(htDesc) htDesc.textContent = 'Find the right hashtags for ' + p.name + ' — max ' + p.maxHashtags;
+    // Update hook generator system prompt context
+    var hookDesc = document.querySelector('#page-hooks .page-header .page-desc');
+    if(hookDesc) hookDesc.textContent = 'AI-powered opening lines for ' + p.name;
+}
+
 // ============================================================
 // SPLASH SCREEN
 // ============================================================
@@ -652,17 +818,23 @@ function countSyll(w) { w=w.toLowerCase().replace(/[^a-z]/g,'');if(w.length<=2)r
 function scoreHook(l) { var s=0;if(/\d/.test(l))s++;if(/[?]/.test(l))s++;if(l.length<80)s++;if(/^(I |Here|Most|Stop|The |What|Why|How|Don|This|Every|Nobody|Unpopular|Hot take|Controversial|Truth|Forget|Imagine)/i.test(l))s++;if(/\b(secret|mistake|myth|truth|lesson|hack|tip|never|always|wrong|surprising|shocking)\b/i.test(l))s++;return Math.min(s,4); }
 
 function analyzePost() {
+    var P=plt(),mx=P.maxChars,wn=P.warnChars;
     var t=document.getElementById('a-input').value,c=t.length,w=t.trim()?t.trim().split(/\s+/).length:0,l=t?t.split('\n').length:0,p=t.trim()?t.trim().split(/\n\s*\n/).filter(function(s){return s.trim()}).length:0;
     if(p===0&&w>0)p=1; var rs=Math.ceil(w/3.5);
-    var lc=document.getElementById('a-live-count');lc.textContent=c.toLocaleString();lc.style.color=c>3000?'#e74c3c':c>2700?'#f39c12':'var(--gold-light)';
-    var pct=Math.min((c/3000)*100,100),g=document.getElementById('a-gauge');g.style.width=pct+'%';g.style.background=c>3000?'var(--danger)':c>2700?'var(--warning)':c>1300?'var(--success)':'var(--blue-mid)';
+    // Update counter display with platform limit
+    document.getElementById('a-max-display').textContent=mx.toLocaleString();
+    var lc=document.getElementById('a-live-count');lc.textContent=c.toLocaleString();lc.style.color=c>mx?'#e74c3c':c>wn?'#f39c12':'var(--gold-light)';
+    var pct=Math.min((c/mx)*100,100),g=document.getElementById('a-gauge');g.style.width=pct+'%';g.style.background=c>mx?'var(--danger)':c>wn?'var(--warning)':c>P.sweetMax?'var(--success)':'var(--blue-mid)';
+    // Update gauge labels
+    document.getElementById('a-gauge-mid').textContent=P.sweetMax.toLocaleString();
+    document.getElementById('a-gauge-max').textContent=mx.toLocaleString();
     var z=document.getElementById('a-zone');
     if(c===0){z.textContent='Write something to begin';z.style.color='var(--text-muted)'}
-    else if(c<=700){z.textContent='Short & punchy — great for engagement';z.style.color='var(--blue-bright)'}
-    else if(c<=1300){z.textContent='Optimal range — LinkedIn\'s sweet spot';z.style.color='var(--success)'}
-    else if(c<=2500){z.textContent='Long-form — make every line earn attention';z.style.color='var(--warning)'}
-    else if(c<=3000){z.textContent='Near the limit — tighten where you can';z.style.color='var(--warning)'}
-    else{z.textContent='Over the 3,000 character limit!';z.style.color='var(--danger)'}
+    else if(c<=Math.min(700,mx*0.25)){z.textContent=P.shortMsg;z.style.color='var(--blue-bright)'}
+    else if(c>=P.sweetMin&&c<=P.sweetMax){z.textContent=P.sweetSpotMsg;z.style.color='var(--success)'}
+    else if(c>P.sweetMax&&c<=wn){z.textContent=P.longMsg;z.style.color='var(--warning)'}
+    else if(c>wn&&c<=mx){z.textContent=P.nearMsg;z.style.color='var(--warning)'}
+    else if(c>mx){z.textContent=P.overMsg.replace('{max}',mx.toLocaleString());z.style.color='var(--danger)'}
     document.getElementById('a-words').textContent=w;document.getElementById('a-lines').textContent=l;document.getElementById('a-paras').textContent=p;document.getElementById('a-time').textContent=rs>60?Math.floor(rs/60)+'m':rs+'s';
     var sents=t.split(/[.!?]+/).filter(function(s){return s.trim().length>0}),sc=Math.max(sents.length,1),ts=0,aw=t.trim()?t.trim().split(/\s+/):[];
     aw.forEach(function(x){ts+=countSyll(x)});
@@ -673,15 +845,15 @@ function analyzePost() {
     document.getElementById('a-avgsent').textContent=as.toFixed(1);document.getElementById('a-avgword').textContent=awl;document.getElementById('a-grade').textContent=fk>0?fk.toFixed(1):'--';
     var rse=document.getElementById('a-rscore'),rge=document.getElementById('a-rgrade'),ring=document.getElementById('a-ring');
     if(w<10){rse.textContent='--';rge.textContent='Grade';ring.style.strokeDasharray='0 100';ring.style.stroke='var(--text-muted)';document.getElementById('a-rverdict').textContent=''}
-    else{rse.textContent=fl;var rc=fl>=60?'var(--success)':fl>=40?'var(--warning)':'var(--danger)';ring.style.stroke=rc;ring.style.strokeDasharray=fl+' '+(100-fl);rse.style.color=rc;rge.textContent=fl>=70?'Easy':fl>=50?'Good':fl>=30?'Dense':'Hard';var v=document.getElementById('a-rverdict');if(fl>=60)v.innerHTML='<span style="color:var(--success)">Great readability.</span> Clear and scannable — perfect for LinkedIn.';else if(fl>=40)v.innerHTML='<span style="color:var(--warning)">Moderate.</span> Consider shorter sentences.';else v.innerHTML='<span style="color:var(--danger)">Dense.</span> Try shorter sentences. Top content reads at 6th–8th grade level.'}
+    else{rse.textContent=fl;var rc=fl>=60?'var(--success)':fl>=40?'var(--warning)':'var(--danger)';ring.style.stroke=rc;ring.style.strokeDasharray=fl+' '+(100-fl);rse.style.color=rc;rge.textContent=fl>=70?'Easy':fl>=50?'Good':fl>=30?'Dense':'Hard';var v=document.getElementById('a-rverdict');if(fl>=60)v.innerHTML='<span style="color:var(--success)">Great readability.</span> Clear and scannable — '+P.readabilityNote+'.';else if(fl>=40)v.innerHTML='<span style="color:var(--warning)">Moderate.</span> Consider shorter sentences.';else v.innerHTML='<span style="color:var(--danger)">Dense.</span> Try shorter sentences. Top content reads at 6th–8th grade level.'}
     // Hook analysis
     var hc=document.getElementById('a-hook-card'),hd=document.getElementById('a-hook-dot'),hs=document.getElementById('a-hook-status');
     if(w>=5){hc.style.display='';var first=t.split('\n')[0].trim();document.getElementById('a-hook-line').textContent=first.length>140?first.substring(0,140)+'…':first;var s2=scoreHook(first);if(s2>=3){hd.style.background='var(--success)';hs.textContent='Strong hook';hs.style.color='var(--success)';document.getElementById('a-hook-verdict').innerHTML='<span style="color:var(--success)">✓ Scroll-stopping opener</span>'}else if(s2>=2){hd.style.background='var(--warning)';hs.textContent='Decent hook';hs.style.color='var(--warning)';document.getElementById('a-hook-verdict').innerHTML='<span style="color:var(--warning)">○ Try adding a number or bold claim</span>'}else{hd.style.background='var(--danger)';hs.textContent='Weak hook';hs.style.color='var(--danger)';document.getElementById('a-hook-verdict').innerHTML='<span style="color:var(--danger)">✗ Open with a stat, question, or bold statement</span>'}}
     else{hc.style.display='none';hd.style.background='var(--text-muted)';hs.textContent='Waiting for content...';hs.style.color='var(--text-muted)'}
-    // Tips
+    // Tips — platform-aware
     var tips=[],hb=t.indexOf('\n\n')!==-1,cta=/\b(comment|share|follow|link|DM|reply|thoughts|agree|disagree)\b/i.test(t.slice(-200)),hcnt=(t.match(/#\w+/g)||[]).length;
     if(w===0){tips.push({i:'✏',cl:'rgba(74,144,217,.15)',t:'Start writing to get personalized tips.'})}
-    else{if(c>1000&&c<=1300)tips.push({i:'✅',cl:'rgba(46,204,113,.12)',t:'Great length! 1,000–1,300 chars is the sweet spot.'});else if(c<300&&w>10)tips.push({i:'↗',cl:'rgba(74,144,217,.15)',t:'Consider expanding. Posts under 300 chars get less reach.'});else if(c>2500)tips.push({i:'✂',cl:'rgba(201,162,39,.12)',t:'Long post! Make the first 3 lines compelling.'});if(!hb&&w>50)tips.push({i:'¶',cl:'rgba(74,144,217,.15)',t:'Add line breaks. Wall-of-text posts get scrolled past.'});if(as>25)tips.push({i:'✂',cl:'rgba(201,162,39,.12)',t:'Avg sentence is '+as.toFixed(0)+' words. Keep under 20.'});if(fl<40&&w>20)tips.push({i:'📖',cl:'rgba(231,76,60,.12)',t:'Readability is low. Use simpler words and shorter sentences.'});if(!cta&&w>50)tips.push({i:'💬',cl:'rgba(74,144,217,.15)',t:'No CTA detected. End with a question to boost engagement.'});if(hcnt===0&&w>30)tips.push({i:'#',cl:'rgba(201,162,39,.12)',t:'Add 3–5 hashtags at the end for discoverability.'});if(hcnt>5)tips.push({i:'#',cl:'rgba(231,76,60,.12)',t:hcnt+' hashtags is too many. LinkedIn recommends 3–5.'});if(tips.length===0)tips.push({i:'✅',cl:'rgba(46,204,113,.12)',t:'Looking solid! Your post checks the major boxes.'})}
+    else{if(c>=P.sweetMin&&c<=P.sweetMax)tips.push({i:'✅',cl:'rgba(46,204,113,.12)',t:'Great length for '+P.name+'! '+P.sweetMin.toLocaleString()+'–'+P.sweetMax.toLocaleString()+' chars is the sweet spot.'});else if(c<P.sweetMin&&c>50&&w>10)tips.push({i:'↗',cl:'rgba(74,144,217,.15)',t:'Consider expanding. Posts under '+P.sweetMin+' chars may get less reach on '+P.name+'.'});else if(c>wn)tips.push({i:'✂',cl:'rgba(201,162,39,.12)',t:'Long post! Make the first few lines compelling.'});if(!hb&&w>50&&mx>500)tips.push({i:'¶',cl:'rgba(74,144,217,.15)',t:'Add line breaks. Wall-of-text posts get scrolled past.'});if(as>25)tips.push({i:'✂',cl:'rgba(201,162,39,.12)',t:'Avg sentence is '+as.toFixed(0)+' words. Keep under 20.'});if(fl<40&&w>20)tips.push({i:'📖',cl:'rgba(231,76,60,.12)',t:'Readability is low. Use simpler words and shorter sentences.'});if(!cta&&w>50)tips.push({i:'💬',cl:'rgba(74,144,217,.15)',t:'No CTA detected. End with a question to boost engagement.'});if(hcnt===0&&w>30)tips.push({i:'#',cl:'rgba(201,162,39,.12)',t:P.hashtagTip.replace('{n}',P.maxHashtags)});if(hcnt>P.maxHashtags)tips.push({i:'#',cl:'rgba(231,76,60,.12)',t:P.hashtagOverTip.replace('{count}',hcnt).replace('{n}',P.maxHashtags)});if(tips.length===0)tips.push({i:'✅',cl:'rgba(46,204,113,.12)',t:'Looking solid! Your post checks the major boxes for '+P.name+'.'})}
     document.getElementById('a-tips').innerHTML=tips.map(function(x){return'<div class="tip"><div class="tip-icon" style="background:'+x.cl+'">'+x.i+'</div>'+x.t+'</div>'}).join('');
 }
 
@@ -714,7 +886,8 @@ async function generateHooks(){
     if(key){
         st.textContent='Calling Claude API...';
         try{
-            var r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-5-20250514',max_tokens:1000,system:'You are an expert LinkedIn content strategist. Generate exactly '+count+' LinkedIn opening hooks based on the user\'s topic. Tone: '+tone+'. Each hook should stop the scroll and maximize "see more" clicks. Return ONLY a JSON array of strings.',messages:[{role:'user',content:'Topic: '+topic}]})});
+            var sysPrompt=plt().hookSystemPrompt.replace('{count}',count).replace('{tone}',tone);
+            var r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-5-20250514',max_tokens:1000,system:sysPrompt,messages:[{role:'user',content:'Topic: '+topic}]})});
             var d=await r.json();if(d.error)throw new Error(d.error.message);
             var hooks=JSON.parse(d.content[0].text.replace(/```json|```/g,'').trim());
             renderHooks(hooks);st.textContent='Generated '+hooks.length+' AI-powered hooks';
@@ -740,16 +913,18 @@ var htDB={
 var htCats={ai:/\b(ai|artificial intelligence|machine learning|chatgpt|claude|gpt|llm|generative|prompt|model)\b/,education:/\b(education|teach|school|student|professor|university|classroom|curriculum|faculty|course|academic)\b/,leadership:/\b(leader|leadership|executive|ceo|manage|c-suite|director|strategy|vision)\b/,business:/\b(business|company|organization|firm|enterprise|startup|revenue|profit|client|customer|roi|consult)\b/,productivity:/\b(productiv|efficien|workflow|automat|time|faster|streamline|optimize)\b/,training:/\b(train|workshop|professional development|onboard|skill|learn|upskill|develop)\b/,data:/\b(data|metric|measure|assessment|survey|longitudinal|analytics|evidence|research)\b/,tech:/\b(tech|digital|software|tool|platform|app|cloud|transform)\b/};
 
 function analyzeHashtags(){
+    var P=plt();
     var t=document.getElementById('ht-input').value.toLowerCase();
     if(t.trim().length<10){document.getElementById('ht-results-card').style.display='none';return}
     document.getElementById('ht-results-card').style.display='';
+    document.getElementById('ht-advice').textContent='Click to select. '+P.name+' recommends up to '+P.maxHashtags+' hashtags per post.';
     var matched=[];
     for(var c in htCats){if(htCats[c].test(t)){htDB[c].forEach(function(h){if(!matched.find(function(m){return m.tag===h.tag}))matched.push(h)})}}
     if(matched.length===0)matched=htDB.ai.concat(htDB.business).slice(0,6);
     document.getElementById('ht-grid').innerHTML=matched.map(function(h){var s=htSel.indexOf(h.tag)!==-1;return'<div class="hashtag-card'+(s?' selected':'')+'" onclick="toggleHt(\''+h.tag+'\',this)"><div class="ht-name">'+h.tag+'</div><div class="ht-meta">'+h.size+' · '+h.f+' followers</div></div>'}).join('');
     updateHtSel();
 }
-function toggleHt(tag,el){var i=htSel.indexOf(tag);if(i===-1){if(htSel.length>=5)return;htSel.push(tag);el.classList.add('selected')}else{htSel.splice(i,1);el.classList.remove('selected')}updateHtSel()}
+function toggleHt(tag,el){var i=htSel.indexOf(tag);if(i===-1){if(htSel.length>=plt().maxHashtags)return;htSel.push(tag);el.classList.add('selected')}else{htSel.splice(i,1);el.classList.remove('selected')}updateHtSel()}
 function updateHtSel(){document.getElementById('ht-cnt').textContent='('+htSel.length+')';var el=document.getElementById('ht-selected');if(htSel.length===0)el.innerHTML='<span style="font-size:12px;color:var(--text-muted)">Click hashtags above to select them</span>';else el.innerHTML=htSel.map(function(t){return'<span class="tag">'+t+'</span>'}).join('')}
 function copyHashtags(){if(!htSel.length)return;navigator.clipboard.writeText(htSel.join(' '));var b=document.getElementById('ht-copy-btn');b.textContent='Copied!';setTimeout(function(){b.textContent='Copy to Clipboard'},1500)}
 
@@ -757,22 +932,47 @@ function copyHashtags(){if(!htSel.length)return;navigator.clipboard.writeText(ht
 // POST PREVIEW
 // ============================================================
 function updatePreview(){
+    var P=plt(),mFold=P.mobileFold,dFold=P.desktopFold;
     var t=document.getElementById('p-input').value;
     var name=document.getElementById('p-name').value||'Your Name';
     var headline=document.getElementById('p-headline').value||'Your Headline';
     var initials=name.split(' ').map(function(w){return w[0]}).join('').toUpperCase().slice(0,2);
+    // Update dynamic labels
     document.getElementById('p-chars').textContent=t.length;
-    var mText=t,mTrunc=false;if(t.length>210){var cut=t.lastIndexOf(' ',210);if(cut===-1)cut=210;mText=t.substring(0,cut);mTrunc=true}
-    var dText=t,dTrunc=false;if(t.length>450){var dCut=t.lastIndexOf(' ',450);if(dCut===-1)dCut=450;dText=t.substring(0,dCut);dTrunc=true}
+    document.getElementById('p-max-chars').textContent=P.maxChars.toLocaleString();
+    document.getElementById('p-mobile-fold').textContent=mFold;
+    document.getElementById('p-desktop-fold').textContent=dFold;
+    document.getElementById('p-platform-label').textContent=P.name;
+    // Desktop preview visibility
+    var dPreviewCol=document.getElementById('desktop-preview-col');
+    if(P.showDesktopPreview){dPreviewCol.style.display=''}else{dPreviewCol.style.display='none'}
+    // Truncation
+    var mText=t,mTrunc=false;if(t.length>mFold){var cut=t.lastIndexOf(' ',mFold);if(cut===-1)cut=mFold;mText=t.substring(0,cut);mTrunc=true}
+    var dText=t,dTrunc=false;if(t.length>dFold){var dCut=t.lastIndexOf(' ',dFold);if(dCut===-1)dCut=dFold;dText=t.substring(0,dCut);dTrunc=true}
     ['m','d'].forEach(function(p){document.getElementById('p'+p+'-name').textContent=name;document.getElementById('p'+p+'-headline').textContent=headline.length>45?headline.substring(0,45)+'...':headline;document.getElementById('p'+p+'-avatar').textContent=initials});
     var mEl=document.getElementById('pm-text');mEl.textContent=mText;mEl.className='preview-text'+(mTrunc?' truncated':'');
     var dEl=document.getElementById('pd-text');dEl.textContent=dText;dEl.className='preview-text'+(dTrunc?' truncated':'');
+    // Update "see more" text based on platform
+    document.documentElement.style.setProperty('--see-more-text','"'+P.seeMore+'"');
     var mN=document.getElementById('pm-note'),dN=document.getElementById('pd-note');
     if(t.length===0){mN.innerHTML='';dN.innerHTML=''}
-    else if(t.length<=210){mN.innerHTML='<strong style="color:var(--gold-light)">Full post visible</strong> — no "see more" on mobile.';dN.innerHTML='<strong style="color:var(--gold-light)">Full post visible</strong> — no truncation on desktop.'}
-    else{mN.innerHTML='<strong style="color:var(--gold-light)">Truncated at ~'+mText.length+' chars</strong> on mobile. Remaining: <strong>'+(t.length-mText.length)+'</strong> chars behind "see more".';if(t.length<=450)dN.innerHTML='<strong style="color:var(--gold-light)">Full post visible</strong> on desktop.';else dN.innerHTML='<strong style="color:var(--gold-light)">Truncated at ~'+dText.length+' chars</strong> on desktop. Remaining: <strong>'+(t.length-dText.length)+'</strong> chars behind "see more".'}
+    else if(t.length<=mFold){mN.innerHTML='<strong style="color:var(--gold-light)">Full post visible</strong> — no truncation on mobile.';dN.innerHTML='<strong style="color:var(--gold-light)">Full post visible</strong> — no truncation on desktop.'}
+    else{mN.innerHTML='<strong style="color:var(--gold-light)">Truncated at ~'+mText.length+' chars</strong> on mobile. Remaining: <strong>'+(t.length-mText.length)+'</strong> chars behind "'+P.seeMore+'".';if(t.length<=dFold)dN.innerHTML='<strong style="color:var(--gold-light)">Full post visible</strong> on desktop.';else dN.innerHTML='<strong style="color:var(--gold-light)">Truncated at ~'+dText.length+' chars</strong> on desktop. Remaining: <strong>'+(t.length-dText.length)+'</strong> chars behind "'+P.seeMore+'".'}
 }
 updatePreview();
+updatePlatformIndicators();
+updateHashtagTips();
+
+function updateHashtagTips(){
+    var P=plt();
+    var countTip=document.getElementById('ht-tip-count');
+    if(countTip) countTip.innerHTML='<div class="tip-icon" style="background:rgba(201,162,39,.12)">'+P.maxHashtags+'</div>Use up to '+P.maxHashtags+' hashtags per post on '+P.name+'. Mix broad and niche for reach.';
+    var posTip=document.getElementById('ht-tip-position');
+    if(posTip){
+        if(P.hashtagPosition==='end') posTip.innerHTML='<div class="tip-icon" style="background:rgba(46,204,113,.12)">↓</div>Place hashtags at the end of your post on '+P.name+'.';
+        else posTip.innerHTML='<div class="tip-icon" style="background:rgba(46,204,113,.12)">↔</div>Hashtags can go inline or at the end on '+P.name+'.';
+    }
+}
 
 // ============================================================
 // SERVICE WORKER
