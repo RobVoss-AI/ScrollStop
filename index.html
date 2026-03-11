@@ -167,6 +167,25 @@ textarea{resize:vertical;min-height:200px}
 .platform-indicator{display:flex;align-items:center;gap:6px;padding:6px 12px;background:rgba(201,162,39,.08);border-radius:var(--radius);font-size:11px;color:var(--gold-light);font-weight:600;margin:0 8px 4px}
 .platform-indicator .plt-icon{font-size:14px}
 
+/* CROSS-TAB SYNC */
+.sync-bar{display:flex;align-items:center;gap:8px;padding:8px 12px;background:rgba(201,162,39,.08);border:1px solid rgba(201,162,39,.2);border-radius:var(--radius);margin-bottom:12px;font-size:12px;color:var(--gold-light);font-weight:600;cursor:pointer;transition:all var(--transition)}
+.sync-bar:hover{background:rgba(201,162,39,.12)}
+.sync-bar .sync-icon{width:18px;height:18px;display:flex;align-items:center;justify-content:center;font-size:14px}
+.sync-bar .sync-label{flex:1}
+.sync-bar .sync-count{font-family:var(--font-mono);font-size:11px;color:var(--text-muted);background:rgba(45,95,138,.15);padding:2px 6px;border-radius:4px}
+
+/* POST WRITER */
+.writer-output{background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius);padding:14px;min-height:200px;font-size:14px;line-height:1.65;white-space:pre-wrap;word-wrap:break-word;color:var(--text-primary);cursor:text;user-select:all}
+.writer-output:empty::before{content:'Your generated post will appear here...';color:var(--text-muted)}
+.vibe-editor{background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius);padding:12px;font-size:13px;font-family:var(--font-mono);color:var(--text-secondary);line-height:1.6;min-height:120px;resize:vertical;width:100%}
+.vibe-editor:focus{border-color:var(--gold-primary);color:var(--text-primary)}
+.writer-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.vibe-toggle{display:flex;align-items:center;gap:8px;padding:8px 12px;background:rgba(45,95,138,.1);border:1px solid var(--border);border-radius:var(--radius);cursor:pointer;transition:all var(--transition);font-size:12px;color:var(--text-secondary);font-weight:600}
+.vibe-toggle:hover{background:rgba(45,95,138,.15);color:var(--text-primary)}
+.vibe-toggle.active{border-color:var(--gold-primary);background:rgba(201,162,39,.08);color:var(--gold-light)}
+.vibe-section{display:none;margin-top:12px}
+.vibe-section.visible{display:block}
+
 /* MOBILE */
 @media(max-width:768px){#sidebar{display:none}.mobile-header{display:flex !important}.layout-main{grid-template-columns:1fr !important}.mobile-platform{display:flex !important}}
 .mobile-header{display:none;padding:12px 16px;background:var(--bg-dark);border-bottom:1px solid var(--border);align-items:center;gap:12px}
@@ -189,7 +208,9 @@ textarea{resize:vertical;min-height:200px}
         <div class="splash-tool">📊 Post Analyzer</div>
         <div class="splash-tool">⚡ Hook Generator</div>
         <div class="splash-tool"># Hashtag Analyzer</div>
+        <div class="splash-tool">✍ Post Writer</div>
         <div class="splash-tool">📱 Post Preview</div>
+        <div class="splash-tool">🔗 Cross-Tab Sync</div>
         <div class="splash-tool">🌐 Multi-Platform</div>
     </div>
     <div class="splash-loader"><div class="splash-loader-bar" id="splash-bar"></div></div>
@@ -211,6 +232,10 @@ textarea{resize:vertical;min-height:200px}
             <p>Paste your post to get real-time character count (limits adjust per platform), Flesch-Kincaid readability score, hook strength analysis, and smart optimization tips. Select your target platform from the sidebar — all limits, tips, and advice adapt automatically.</p>
         </div>
         <div class="help-section">
+            <h3>✍ Post Writer</h3>
+            <p>Describe your topic and the AI writes a complete, ready-to-post draft using your Vibe Guide for tone and style. Customize the Vibe Guide to match your voice — be specific about your writing preferences. Click "Send to All Tools" to push your draft to the Analyzer, Hashtags, and Preview for a full optimization flow. Requires a Claude API key.</p>
+        </div>
+        <div class="help-section">
             <h3>⚡ Hook Generator</h3>
             <p>Describe your topic, pick a tone, and generate scroll-stopping opening lines. Works with 40+ smart templates built-in. Add a Claude API key (optional) for AI-generated hooks tailored to your exact topic. Click any hook to copy it.</p>
         </div>
@@ -221,6 +246,10 @@ textarea{resize:vertical;min-height:200px}
         <div class="help-section">
             <h3>📱 Post Preview</h3>
             <p>See exactly how your post appears, including where the platform cuts it off. Fold points and truncation behavior adapt to your selected platform. Make sure your hook and key message land above the fold.</p>
+        </div>
+        <div class="help-section">
+            <h3>🔗 Cross-Tab Sync</h3>
+            <p>Write or generate content in any tool and it becomes available across all others. When you type in the Analyzer, a sync bar appears in Hashtags and Preview. Click it to load the text. "Send to All Tools" from the Writer pushes your draft everywhere at once — one flow from draft to optimized post.</p>
         </div>
         <div class="help-section">
             <h3>🌐 Platform Selector</h3>
@@ -262,6 +291,7 @@ textarea{resize:vertical;min-height:200px}
             <div class="nav-section">Tools</div>
             <button class="nav-btn active" onclick="showPage('formatter',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7V4h16v3M9 20h6M12 4v16"/></svg>Text Formatter</button>
             <button class="nav-btn" onclick="showPage('analyzer',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>Post Analyzer</button>
+            <button class="nav-btn" onclick="showPage('writer',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>Post Writer<span class="badge">AI</span></button>
             <button class="nav-btn" onclick="showPage('hooks',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>Hook Generator<span class="badge">AI</span></button>
             <button class="nav-btn" onclick="showPage('hashtags',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 9h16M4 15h16M10 3l-2 18M16 3l-2 18"/></svg>Hashtag Analyzer</button>
             <button class="nav-btn" onclick="showPage('preview',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>Post Preview</button>
@@ -280,6 +310,7 @@ textarea{resize:vertical;min-height:200px}
         <select id="mobile-nav" onchange="showPage(this.value)">
             <option value="formatter">✦ Text Formatter</option>
             <option value="analyzer">📊 Post Analyzer</option>
+            <option value="writer">✍ Post Writer</option>
             <option value="hooks">⚡ Hook Generator</option>
             <option value="hashtags"># Hashtag Analyzer</option>
             <option value="preview">📱 Post Preview</option>
@@ -360,6 +391,11 @@ Example: This text will become 𝗯𝗼𝗹𝗱, 𝘪𝘵𝘢𝘭𝘪𝘤, or ot
             <div class="layout-main">
                 <div class="flex-col">
                     <div class="card">
+                        <div class="sync-bar" onclick="pullSharedText('a-input')" id="a-sync-bar" style="display:none">
+                            <span class="sync-icon">🔗</span>
+                            <span class="sync-label">Shared post available — click to load</span>
+                            <span class="sync-count" id="a-sync-count">0 chars</span>
+                        </div>
                         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
                             <div class="card-label" style="margin:0">Your Post</div>
                             <div style="font-family:var(--font-mono);font-size:13px;font-weight:600"><span id="a-live-count" style="color:var(--gold-light)">0</span><span style="color:var(--text-muted)"> / <span id="a-max-display">3,000</span></span></div>
@@ -445,6 +481,11 @@ The best posts open with a hook that stops the scroll. Try a bold stat, a contra
         <div class="page-body" style="max-width:720px">
             <div class="flex-col">
                 <div class="card">
+                    <div class="sync-bar" onclick="pullSharedText('ht-input');analyzeHashtags()" id="ht-sync-bar" style="display:none">
+                        <span class="sync-icon">🔗</span>
+                        <span class="sync-label">Shared post available — click to load</span>
+                        <span class="sync-count" id="ht-sync-count">0 chars</span>
+                    </div>
                     <div class="card-label">Your post content or topic</div>
                     <textarea id="ht-input" style="min-height:100px" placeholder="Paste your post or describe your topic. The analyzer will suggest relevant hashtags based on your content." oninput="analyzeHashtags()"></textarea>
                 </div>
@@ -478,6 +519,11 @@ The best posts open with a hook that stops the scroll. Try a bold stat, a contra
         <div class="page-body">
             <div class="flex-col" style="max-width:900px">
                 <div class="card">
+                    <div class="sync-bar" onclick="pullSharedText('p-input');updatePreview()" id="p-sync-bar" style="display:none">
+                        <span class="sync-icon">🔗</span>
+                        <span class="sync-label">Shared post available — click to load</span>
+                        <span class="sync-count" id="p-sync-count">0 chars</span>
+                    </div>
                     <div class="card-label">Your Post</div>
                     <textarea id="p-input" style="min-height:120px" placeholder="Paste or type your post to see how it will appear." oninput="updatePreview()"></textarea>
                     <div class="grid-2" style="margin-top:12px">
@@ -509,6 +555,80 @@ The best posts open with a hook that stops the scroll. Try a bold stat, a contra
                             <div class="preview-actions"><div class="preview-action">👍 Like</div><div class="preview-action">💬 Comment</div><div class="preview-action">🔁 Repost</div><div class="preview-action">✉ Send</div></div>
                         </div>
                         <div id="pd-note" style="font-size:12px;color:var(--text-muted);margin-top:8px;padding:10px;background:rgba(45,95,138,.08);border-radius:var(--radius);line-height:1.5"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 6: POST WRITER -->
+    <div class="page" id="page-writer">
+        <div class="page-header">
+            <div><h2><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>Post Writer</h2><div class="page-desc">AI-powered post drafts guided by your vibe</div></div>
+        </div>
+        <div class="page-body">
+            <div class="layout-main">
+                <div class="flex-col">
+                    <div class="card">
+                        <div class="card-label">What do you want to write about?</div>
+                        <textarea id="w-topic" style="min-height:100px" placeholder="Describe your topic, key message, audience, or paste rough notes. The more context, the better the draft.
+
+Example: Write about how small businesses can start using AI without a big budget. Focus on practical first steps."></textarea>
+                    </div>
+                    <div class="card">
+                        <div style="display:flex;justify-content:space-between;align-items:center">
+                            <div class="card-label" style="margin:0">Vibe Guide</div>
+                            <button class="vibe-toggle" id="w-vibe-toggle" onclick="toggleVibeEditor()">
+                                <span>✦</span> Edit Vibe
+                            </button>
+                        </div>
+                        <div class="vibe-section" id="w-vibe-section">
+                            <textarea class="vibe-editor" id="w-vibe" placeholder="Your tone & style guidelines..."></textarea>
+                            <div style="display:flex;gap:8px;margin-top:8px">
+                                <button class="btn btn-ghost btn-sm" onclick="resetVibe()">Reset to Default</button>
+                                <span style="font-size:11px;color:var(--text-muted);display:flex;align-items:center">Customize your writing voice and style</span>
+                            </div>
+                        </div>
+                        <div id="w-vibe-summary" style="margin-top:10px;font-size:12px;color:var(--text-secondary);line-height:1.6">
+                            <span style="color:var(--gold-light)">Active vibe:</span> Confident, direct, conversational. Hook-first. Short paragraphs. CTA at end.
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="grid-2">
+                            <div><label style="font-size:11px;color:var(--text-muted);font-weight:600;display:block;margin-bottom:4px">Post Length</label><select id="w-length"><option value="short">Short (under 500 chars)</option><option value="medium" selected>Medium (500-1,200 chars)</option><option value="long">Long-form (1,200+ chars)</option></select></div>
+                            <div><label style="font-size:11px;color:var(--text-muted);font-weight:600;display:block;margin-bottom:4px">Include Hashtags</label><select id="w-hashtags"><option value="yes">Yes — add relevant hashtags</option><option value="no">No hashtags</option></select></div>
+                        </div>
+                    </div>
+                    <div class="api-section">
+                        <label>Claude API Key <span style="font-size:10px;color:var(--text-muted)">(required for Post Writer)</span></label>
+                        <input type="text" id="w-api-key" placeholder="sk-ant-api03-...">
+                        <div class="api-note">Your key is sent directly to Anthropic's API and never stored. The Writer uses Claude to generate full post drafts.</div>
+                    </div>
+                    <div class="writer-actions">
+                        <button class="btn btn-gold btn-lg" onclick="generatePost()" id="w-gen-btn">✍ Write Post</button>
+                        <span id="w-status" style="font-size:12px;color:var(--text-muted)"></span>
+                    </div>
+                </div>
+                <div class="flex-col">
+                    <div class="card">
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+                            <div class="card-label" style="margin:0">Generated Post</div>
+                            <div style="font-family:var(--font-mono);font-size:13px;font-weight:600"><span id="w-char-count" style="color:var(--gold-light)">0</span><span style="color:var(--text-muted)"> chars</span></div>
+                        </div>
+                        <div class="writer-output" id="w-output" onclick="selectAllOutput(this)"></div>
+                        <div style="display:flex;gap:10px;align-items:center;margin-top:12px;flex-wrap:wrap">
+                            <button class="btn btn-gold" onclick="copyWriterOutput()">📋 Copy Post</button>
+                            <button class="btn btn-blue" onclick="sendToTools()" id="w-send-btn" style="display:none">🔗 Send to All Tools</button>
+                            <span id="w-copy-status" style="font-size:12px;color:var(--text-muted)"></span>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-label">How It Works</div>
+                        <div class="flex-col" style="gap:8px">
+                            <div class="tip"><div class="tip-icon" style="background:rgba(201,162,39,.12)">✦</div>The Writer uses your Vibe Guide to match your personal tone and style — like having your voice built into the AI.</div>
+                            <div class="tip"><div class="tip-icon" style="background:rgba(74,144,217,.15)">🔗</div>"Send to All Tools" pushes your draft to the Analyzer, Hashtags, and Preview so you can optimize in one flow.</div>
+                            <div class="tip"><div class="tip-icon" style="background:rgba(46,204,113,.12)">✏</div>Edit the Vibe Guide to change the AI's writing style. Be specific — "use analogies" or "write like a founder" works great.</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -648,6 +768,9 @@ function updatePlatformIndicators() {
     // Update hook generator system prompt context
     var hookDesc = document.querySelector('#page-hooks .page-header .page-desc');
     if(hookDesc) hookDesc.textContent = 'AI-powered opening lines for ' + p.name;
+    // Update writer page description
+    var writerDesc = document.querySelector('#page-writer .page-header .page-desc');
+    if(writerDesc) writerDesc.textContent = 'AI-powered post drafts for ' + p.name + ' — guided by your vibe';
 }
 
 // ============================================================
@@ -972,6 +1095,192 @@ function updateHashtagTips(){
         if(P.hashtagPosition==='end') posTip.innerHTML='<div class="tip-icon" style="background:rgba(46,204,113,.12)">↓</div>Place hashtags at the end of your post on '+P.name+'.';
         else posTip.innerHTML='<div class="tip-icon" style="background:rgba(46,204,113,.12)">↔</div>Hashtags can go inline or at the end on '+P.name+'.';
     }
+}
+
+// ============================================================
+// CROSS-TAB SYNC — shared post text across tools
+// ============================================================
+var sharedPostText = '';
+
+function setSharedText(text, sourceId) {
+    sharedPostText = text;
+    // Update sync bars on other pages
+    var targets = [
+        { input: 'a-input', bar: 'a-sync-bar', count: 'a-sync-count' },
+        { input: 'ht-input', bar: 'ht-sync-bar', count: 'ht-sync-count' },
+        { input: 'p-input', bar: 'p-sync-bar', count: 'p-sync-count' }
+    ];
+    targets.forEach(function(t) {
+        var bar = document.getElementById(t.bar);
+        var countEl = document.getElementById(t.count);
+        if (!bar || !countEl) return;
+        var inputEl = document.getElementById(t.input);
+        var inputVal = inputEl ? inputEl.value : '';
+        // Show sync bar if shared text exists and differs from current input
+        if (sharedPostText && sharedPostText !== inputVal && t.input !== sourceId) {
+            bar.style.display = 'flex';
+            countEl.textContent = sharedPostText.length.toLocaleString() + ' chars';
+        } else {
+            bar.style.display = 'none';
+        }
+    });
+}
+
+function pullSharedText(targetId) {
+    if (!sharedPostText) return;
+    var el = document.getElementById(targetId);
+    if (el) {
+        el.value = sharedPostText;
+        // Hide the sync bar for this target
+        var barId = targetId.split('-')[0] + '-sync-bar';
+        var bar = document.getElementById(barId);
+        if (bar) bar.style.display = 'none';
+    }
+}
+
+// Hook into existing textarea oninput events to broadcast shared text
+(function() {
+    var aInput = document.getElementById('a-input');
+    var origAnalyze = aInput.getAttribute('oninput');
+    aInput.setAttribute('oninput', 'analyzePost();setSharedText(this.value,"a-input")');
+
+    var htInput = document.getElementById('ht-input');
+    htInput.setAttribute('oninput', 'analyzeHashtags();setSharedText(this.value,"ht-input")');
+
+    var pInput = document.getElementById('p-input');
+    pInput.setAttribute('oninput', 'updatePreview();setSharedText(this.value,"p-input")');
+})();
+
+// Show sync bars when switching pages
+var origShowPage = showPage;
+showPage = function(id, btn) {
+    origShowPage(id, btn);
+    // Refresh sync bar visibility
+    setSharedText(sharedPostText, null);
+};
+
+function sendToTools() {
+    var output = document.getElementById('w-output').textContent;
+    if (!output) return;
+    sharedPostText = output;
+    // Push directly to all tool inputs
+    document.getElementById('a-input').value = output;
+    document.getElementById('ht-input').value = output;
+    document.getElementById('p-input').value = output;
+    // Run their analyses
+    analyzePost();
+    analyzeHashtags();
+    updatePreview();
+    // Hide all sync bars since text is now in sync
+    ['a-sync-bar', 'ht-sync-bar', 'p-sync-bar'].forEach(function(id) {
+        var bar = document.getElementById(id);
+        if (bar) bar.style.display = 'none';
+    });
+    // Visual feedback
+    var btn = document.getElementById('w-send-btn');
+    var orig = btn.innerHTML;
+    btn.innerHTML = '✓ Sent to All Tools';
+    btn.style.background = 'var(--success)';
+    setTimeout(function() { btn.innerHTML = orig; btn.style.background = ''; }, 2000);
+}
+
+// ============================================================
+// POST WRITER — AI-powered drafts with Vibe Guide
+// ============================================================
+var DEFAULT_VIBE = "# Voice & Tone\n- Confident but not arrogant\n- Direct and actionable — every sentence earns its place\n- Conversational, like talking to a smart colleague over coffee\n- Data-informed but human-first\n- Optimistic about technology, realistic about adoption\n\n# Writing Style\n- Lead with a hook that stops the scroll\n- Short paragraphs (1-3 sentences max)\n- Use line breaks generously for scannability\n- Mix short punchy lines with occasional longer insight sentences\n- End with a clear call-to-action or thought-provoking question\n\n# What to Avoid\n- Buzzword soup and empty jargon\n- Overly formal or academic language\n- Clickbait without substance\n- Generic motivational platitudes\n- Walls of text with no breathing room\n\n# Structural Patterns\n- Hook → Context → Insight → Proof → CTA\n- Open with a bold claim, number, or personal story\n- Use \"you\" and \"your\" to speak directly to the reader\n- Break up ideas with white space\n- Keep sentences under 20 words when possible";
+
+// Initialize vibe editor
+document.getElementById('w-vibe').value = DEFAULT_VIBE;
+
+function toggleVibeEditor() {
+    var section = document.getElementById('w-vibe-section');
+    var toggle = document.getElementById('w-vibe-toggle');
+    if (section.classList.contains('visible')) {
+        section.classList.remove('visible');
+        toggle.classList.remove('active');
+    } else {
+        section.classList.add('visible');
+        toggle.classList.add('active');
+    }
+}
+
+function resetVibe() {
+    document.getElementById('w-vibe').value = DEFAULT_VIBE;
+}
+
+// Share API key between Hook Generator and Post Writer
+(function() {
+    var hKey = document.getElementById('h-api-key');
+    var wKey = document.getElementById('w-api-key');
+    hKey.addEventListener('input', function() { if (!wKey.value) wKey.value = hKey.value; });
+    wKey.addEventListener('input', function() { if (!hKey.value) hKey.value = wKey.value; });
+})();
+
+async function generatePost() {
+    var topic = document.getElementById('w-topic').value.trim();
+    if (!topic) { document.getElementById('w-status').textContent = 'Describe your topic first.'; return; }
+    var key = document.getElementById('w-api-key').value.trim();
+    if (!key) { document.getElementById('w-status').textContent = 'API key required for Post Writer.'; return; }
+
+    var P = plt();
+    var vibe = document.getElementById('w-vibe').value.trim();
+    var length = document.getElementById('w-length').value;
+    var hashtags = document.getElementById('w-hashtags').value;
+    var btn = document.getElementById('w-gen-btn');
+    var st = document.getElementById('w-status');
+
+    btn.disabled = true; btn.textContent = 'Writing...'; st.textContent = 'Calling Claude API...';
+
+    var lengthGuide = { short: 'under 500 characters', medium: '500-1,200 characters', long: '1,200-2,500 characters' };
+
+    var systemPrompt = 'You are an expert social media content writer for ' + P.name + '. Write a complete, ready-to-post ' + P.name + ' post based on the user\'s topic.\n\n'
+        + 'PLATFORM RULES:\n'
+        + '- Platform: ' + P.name + '\n'
+        + '- Maximum characters: ' + P.maxChars + '\n'
+        + '- Target length: ' + lengthGuide[length] + '\n'
+        + '- Sweet spot: ' + P.sweetMin + '-' + P.sweetMax + ' characters\n'
+        + (hashtags === 'yes' ? '- Include ' + Math.min(P.maxHashtags, 5) + ' relevant hashtags at the end\n' : '- Do NOT include hashtags\n')
+        + '\nVIBE GUIDE (match this tone and style):\n' + vibe
+        + '\n\nIMPORTANT:\n- Return ONLY the post text, ready to copy and paste\n- No explanations, no meta-commentary, no quotes around the text\n- Apply the vibe guide strictly — it defines the voice\n- Make the opening line a scroll-stopping hook\n- Use line breaks for readability';
+
+    try {
+        var r = await fetch('https://api.anthropic.com/v1/messages', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'x-api-key': key,
+                'anthropic-version': '2023-06-01',
+                'anthropic-dangerous-direct-browser-access': 'true'
+            },
+            body: JSON.stringify({
+                model: 'claude-sonnet-4-5-20250514',
+                max_tokens: 2000,
+                system: systemPrompt,
+                messages: [{ role: 'user', content: 'Topic: ' + topic }]
+            })
+        });
+        var d = await r.json();
+        if (d.error) throw new Error(d.error.message);
+        var post = d.content[0].text.trim();
+        document.getElementById('w-output').textContent = post;
+        document.getElementById('w-char-count').textContent = post.length.toLocaleString();
+        document.getElementById('w-send-btn').style.display = '';
+        st.textContent = 'Draft generated — ' + post.length + ' chars for ' + P.name;
+    } catch (e) {
+        st.textContent = 'Error: ' + e.message;
+        st.style.color = 'var(--danger)';
+        setTimeout(function() { st.style.color = ''; }, 3000);
+    }
+    btn.disabled = false; btn.innerHTML = '✍ Write Post';
+}
+
+function copyWriterOutput() {
+    var text = document.getElementById('w-output').textContent;
+    if (!text) return;
+    navigator.clipboard.writeText(text);
+    var st = document.getElementById('w-copy-status');
+    st.textContent = 'Copied!'; st.style.color = 'var(--success)';
+    setTimeout(function() { st.textContent = ''; }, 1500);
 }
 
 // ============================================================
