@@ -70,10 +70,14 @@ LinkedIn, X/Twitter, Instagram, Facebook, Threads — each with unique config fo
 ### JavaScript
 
 - No module system — all code in a single inline `<script>` block
+- Uses `const`/`let` (no `var`) — targets modern browsers
 - DOM access via `getElementById()` / `querySelector()`
 - Event handlers mostly via inline `onclick` attributes in HTML
 - `async/await` for Claude API calls
 - Section separators: `// ==== SECTION NAME ====`
+- Platform buttons use `data-platform` attributes for identification
+- Clipboard operations use promise-based `.writeText()` with error handling
+- User state persisted to `localStorage` (platform, textarea contents, preview settings)
 
 ### Key Principle: Zero Dependencies
 
@@ -115,7 +119,7 @@ Unicode character maps for text formatting (bold, italic, script, fraktur, doubl
 
 ### `htDB` object
 
-Hashtag database organized by topic category (ai, education, leadership, business, productivity, training, data, tech). Each entry has `tag`, `size` (Broad/Mid/Niche), and `f` (follower count).
+Hashtag database organized by topic category (ai, education, leadership, business, productivity, training, data, tech, marketing, health, finance, design, careers). Each entry has `tag`, `size` (Broad/Mid/Niche), and `f` (follower count).
 
 ## Key Algorithms
 
@@ -136,24 +140,43 @@ Hashtag database organized by topic category (ai, education, leadership, busines
 ### Adding a new platform
 
 1. Add entry to `PLATFORMS` object with all required fields
-2. Add platform button in sidebar HTML (`#sidebar`) and mobile dropdown
-3. Update service worker cache version in `sw.js` if adding assets
+2. Add platform button in sidebar HTML (`#sidebar`) and mobile dropdown — include `data-platform` attribute
+3. Add `role="radio"` and `aria-checked` attributes to sidebar platform pills
+4. Update service worker cache version in `sw.js` if adding assets
 
 ### Adding a new tool/page
 
-1. Add `<div class="page" id="page-newname">` in the HTML body
-2. Add sidebar navigation button with `onclick="showPage('newname')"`
+1. Add `<div class="page" id="page-newname" role="tabpanel" aria-label="Tool Name">` in the HTML body
+2. Add sidebar navigation button with `role="tab"` and `aria-controls="page-newname"` and `onclick="showPage('newname',this)"`
 3. Add corresponding JavaScript logic in the `<script>` block
 4. Follow existing ID prefix convention (pick a short prefix)
+5. If adding textareas that should persist, register them in the localStorage `saveState()`/`restoreState()` functions
+
+### Adding a new hashtag category
+
+1. Add entries to `htDB` object with `{tag, size, f}` objects
+2. Add a matching regex to `htCats` for content detection
 
 ### Modifying the design system
 
 All colors/spacing are in CSS custom properties at the top of `index.html` in the `:root` selector.
+
+## Accessibility
+
+- Help overlay has `role="dialog"` with focus trapping
+- Sidebar uses `role="tablist"` with `aria-selected` on tab buttons
+- Platform selector uses `role="radiogroup"` with `aria-checked` on pills
+- Page panels have `role="tabpanel"` with `aria-label`
+- All textareas have `aria-label` attributes
+- Decorative icons use `aria-hidden="true"`
+- Status regions use `aria-live="polite"` for screen reader updates
 
 ## Important Constraints
 
 - **No build step** — everything must work by opening `index.html` directly
 - **No external dependencies** — vanilla HTML/CSS/JS only
 - **Single file** — keep the app in `index.html` (inline CSS + JS)
+- **Modern JS only** — use `const`/`let`, never `var`
 - **Offline-capable** — update `sw.js` cache version when changing assets
+- **Accessible** — maintain ARIA attributes and keyboard support when modifying UI
 - **License** — custom license; commercial use requires a separate license from Voss AI Consulting
